@@ -10,7 +10,7 @@ public interface IGameWorld {
 	
 	public int getMissileCount();
 	
-	public boolean getShipStatus();
+	public GameCollection getCollection();
 	
 	public boolean getSound();
 	

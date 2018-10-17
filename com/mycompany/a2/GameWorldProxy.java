@@ -26,11 +26,6 @@ public class GameWorldProxy extends Observable implements IGameWorld {
 		return gw.getShipLife();
 	}
 
-	@Override
-	public boolean getShipStatus() {
-		// TODO Auto-generated method stub
-		return gw.getShipStatus();
-	}
 
 	@Override
 	public boolean getSound() {
@@ -41,6 +36,12 @@ public class GameWorldProxy extends Observable implements IGameWorld {
 	@Override
 	public int getMissileCount() {
 		return gw.getMissileCount();
+	}
+
+	@Override
+	public GameCollection getCollection() {
+		// TODO Auto-generated method stub
+		return gw.getCollection();
 	}
 
 	
