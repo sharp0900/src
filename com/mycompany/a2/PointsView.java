@@ -65,10 +65,9 @@ public class PointsView extends Container implements Observer {
 		
 		pointsValueText.setText(""+score);
 		timeValueText.setText(""+ time);
-//							   " Lives: " + lives +
-//							   " Missiles: " + missile + 
-//							   " Time: " + time +
-//							   " Sound: " + ((sound) ? "Off": "On"));
+		missileValueText.setText(""+ missile);
+		soundValueText.setText(""+ sound);
+		livesValueText.setText(""+ lives);
 		this.repaint();
 	}
 }
