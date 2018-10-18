@@ -1,20 +1,16 @@
 package com.mycompany.a2;
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Button;
+import com.codename1.ui.Command;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
-import com.codename1.ui.Dialog;
-import com.codename1.ui.Display;
 import com.codename1.ui.Form;
-import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.Label;
+import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Border;
-import com.codename1.ui.Label;
-import com.codename1.ui.TextField;
-import com.codename1.ui.events.ActionEvent;
-import java.lang.String;
+
 import com.mycompany.a2.commands.*;
 
 public class Game extends Form{
@@ -30,6 +26,14 @@ public class Game extends Form{
 		gw.addObserver(mv);			// register the map Observer
 		gw.addObserver(pv);			// register the points observer
 		gw.init();
+		
+		this.setLayout(new BorderLayout());
+		Toolbar hamBurgerMenu = new Toolbar();
+		setToolbar(hamBurgerMenu);
+		hamBurgerMenu.getAllStyles().setPadding(1, 0, 0, 0);
+		Label label = new Label("Asteroid Game");
+		hamBurgerMenu.setTitleComponent(label);
+		
 		
 		//=================================================================================
 		//Command Buttons to be put on left side of GUI
@@ -109,15 +113,13 @@ public class Game extends Form{
 		exit.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
 		exit.getAllStyles().setBgTransparency(255);
 		
-
 		//================================================================================
 		//Command keyboard input
-		
-		
 		
 		addShip addShipcommand = new addShip(gw);
 		addSpaceShip.setCommand(addShipcommand);
 		addKeyListener('s', addShipcommand);
+		hamBurgerMenu.addCommandToLeftSideMenu(addShipcommand);
 		
 		addAsteroidCommand addAsteroid = new addAsteroidCommand(gw);
 		addAsteroidButton.setCommand(addAsteroid);
@@ -189,11 +191,9 @@ public class Game extends Form{
 		turnShipRightCommand turnRight = new turnShipRightCommand(gw);
 		addKeyListener(-94,turnRight);
 		
-
 		//================================================================
 		//Containers, in other words, the GUI
-		this.setLayout(new BorderLayout());
-		
+	
 		//Points View
 		add(BorderLayout.NORTH, pv);
 		

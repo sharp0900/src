@@ -266,10 +266,12 @@ public class GameWorld extends Observable implements IGameWorld{
 				if (!flagNPS && temp instanceof NonPlayerShip) {
 					flagNPS = true;
 					collection.remove(temp);
+					coll = collection.getIterator();
 				}
 				if (!flagM && temp instanceof Missile) {
 					flagM = true;
 					collection.remove(temp);
+					coll = collection.getIterator();
 				}
 			}
 			System.out.println("Critical hit! Ship Destroyed!");
@@ -309,10 +311,12 @@ public class GameWorld extends Observable implements IGameWorld{
 				if (!flagA && temp instanceof Asteroid) {
 					flagA = true;
 					collection.remove(temp);
+					coll = collection.getIterator();
 				}
 				if (!flagM && temp instanceof Missile) {
 					flagM = true;
 					collection.remove(temp);
+					coll = collection.getIterator();
 				}
 			}
 			notifyObv();
@@ -391,6 +395,7 @@ public class GameWorld extends Observable implements IGameWorld{
 				if (!flag && temp instanceof NonPlayerShip) {
 					flag = true;
 					collection.remove(temp);
+					coll = collection.getIterator();
 				}
 			}
 			notifyObv();
@@ -417,10 +422,12 @@ public class GameWorld extends Observable implements IGameWorld{
 				if (!flagA && temp instanceof Asteroid) {
 					flagA = true;
 					collection.remove(temp);
+					coll = collection.getIterator();
 				}
 				if (!flagAA && temp instanceof Asteroid) {
 					flagAA = true;
 					collection.remove(temp);
+					coll = collection.getIterator();
 				}
 			}
 			notifyObv();
@@ -447,10 +454,12 @@ public class GameWorld extends Observable implements IGameWorld{
 				if (!flagA && temp instanceof Asteroid) {
 					flagA = true;
 					collection.remove(temp);
+					coll = collection.getIterator();
 				}
 				if (!flagnps && temp instanceof NonPlayerShip) {
 					flagnps = true;
 					collection.remove(temp);
+					coll = collection.getIterator();
 				}
 			}
 			notifyObv();
@@ -490,6 +499,7 @@ public class GameWorld extends Observable implements IGameWorld{
 					}
 					else {
 						 collection.remove(temp);
+						 coll = collection.getIterator();
 					}
 				}
 			}

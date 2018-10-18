@@ -2,6 +2,7 @@ package com.mycompany.a2;
 import java.util.Iterator;
 import java.util.Vector;
 
+
 public class GameCollection implements ICollection {
 
 	private Vector<GameObject> collection;

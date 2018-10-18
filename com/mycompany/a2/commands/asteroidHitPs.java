@@ -13,7 +13,6 @@ public class asteroidHitPs extends Command{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-
 		gw.crash();
 	}
 	
