@@ -4,17 +4,17 @@ import com.codename1.ui.Command;
 import com.codename1.ui.events.ActionEvent;
 import com.mycompany.a2.GameWorld;
 
-public class addAsteroidCommand extends Command{
+public class missHitNpsCommand extends Command {
 
 	private GameWorld gw;
 	
-	public addAsteroidCommand(GameWorld gw) {
-		super("Add Some New Asteroid");
+	public missHitNpsCommand(GameWorld gw) {
+		super("Missile Hits Nps");
 		this.gw = gw;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.addNewAsteroid();
+		gw.eliminate();
 	}
 	
 }

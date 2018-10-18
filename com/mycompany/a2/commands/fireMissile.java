@@ -9,16 +9,12 @@ public class fireMissile extends Command{
 	private GameWorld gw;
 	
 	public fireMissile(GameWorld gw) {
-		super("Launch Missile");
+		super("Launch Player Missile");
 		this.gw = gw;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		//gw.fireMissile();
-	    if (e.getKeyEvent() != -1) {
-	        gw.fireMissile();
-	        System.out.println("fire missile");
-	     }
+		gw.fireMissile();
 	}
 	
 	

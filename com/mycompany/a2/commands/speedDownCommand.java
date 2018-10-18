@@ -4,18 +4,18 @@ import com.codename1.ui.Command;
 import com.codename1.ui.events.ActionEvent;
 import com.mycompany.a2.GameWorld;
 
-public class printTest extends Command{
+public class speedDownCommand extends Command{
 
 	private GameWorld gw;
 	
-	public printTest(GameWorld gw) {
-		super("Print stuff");
+	public speedDownCommand(GameWorld gw) {
+		super("");
 		this.gw = gw;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.map();
-
+		
+		gw.speedUp();
 	}
 	
 }
