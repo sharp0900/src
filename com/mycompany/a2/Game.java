@@ -25,7 +25,6 @@ public class Game extends Form{
 		pv = new PointsView();	    // create an “Observer” for the points
 		gw.addObserver(mv);			// register the map Observer
 		gw.addObserver(pv);			// register the points observer
-		gw.init();
 		
 		this.setLayout(new BorderLayout());
 		Toolbar hamBurgerMenu = new Toolbar();
