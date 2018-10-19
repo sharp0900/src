@@ -1,9 +1,6 @@
 package com.mycompany.a2;
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.Random;
-import java.util.Vector;
-
 import com.mycompany.a2.GameCollection.GameVectorIterator;
 
 public class GameWorld extends Observable implements IGameWorld{
@@ -14,9 +11,6 @@ public class GameWorld extends Observable implements IGameWorld{
 	
 	private boolean shipExist;
 	private boolean soundOn;
-	
-	Random random = new Random();
-	
 	private GameCollection collection;
 	
 	public GameWorld() {
@@ -24,6 +18,7 @@ public class GameWorld extends Observable implements IGameWorld{
 		this.init();
 	}
 	
+	//=================================================================
 	// This will initialize the Game's info and points/scores
 	public void init() {
 		shipExist = false;
@@ -65,7 +60,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 		return npShip;
 	}
-	
 	
 	//==================================================================
 	
@@ -123,7 +117,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		System.out.println("A Non-Player Ship has spawned");
 	}
 	//=================================================================
-	
 	// This method will add a new Player Ship into the game world.
 	public void addPShip() {
 		if (shipExist == false) {
@@ -136,7 +129,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	//=================================================================
-	
 	// This method will fire a missile from Non-Player Ship.
 	public void launch() {
 		if(npShipExist > 0) {
@@ -155,7 +147,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	//=================================================================
-	
 	// This method will turn the Player ship left.
 	public void changeDirectLeft() {
 		if (shipExist) {
@@ -167,7 +158,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	//=================================================================
-	
 	// This method will turn the Player ship Right.
 	public void changeDirectRight() {
 		if (shipExist) {
@@ -179,7 +169,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	//=================================================================
-	
 	// This method will speed up the Player ship.
 	public void speedUp() {
 		if (shipExist) {
@@ -191,7 +180,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	//=================================================================
-	
 	// This method will slow down the Player ship.
 	public void speedDown() {
 		if (shipExist) {
@@ -203,7 +191,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	//=================================================================
-	
 	// This method will reset the Player ship's position.
 	public void jump() {
 		if (shipExist) {
@@ -215,7 +202,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	//=================================================================
-	
 	// This will refill the Player ship's missile count.
 	public void fillMissile() {
 		if (shipExist) {
@@ -227,7 +213,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	//=================================================================
-	
 	// This will fire a missile from player ship.
 	public void fireMissile() {
 		if (shipExist) {
@@ -245,7 +230,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	//=================================================================
-	
 	// Assuming that a missile is fired and hits a non-player ship,
 	// this will remove a non-player ship and missile from the game world.
 	public void eliminate(){
@@ -278,7 +262,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	//=================================================================
-	
 	// This will rotate the ship's missile launcher
 	public void rotateLauncher() {
 		if(shipExist == false) {
@@ -289,7 +272,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	//=================================================================
-	
 	// Assuming a Missile and asteroid exist in the game world and hit 
 	// each other, this will remove both of them from the world.
 	public void destroyAsteroid() {
@@ -324,7 +306,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	//=================================================================
-	
 	// Assuming a Missile and Player ship exist in the game world and 
 	// hit each other, this will remove both of them from the world.
 	public void missileHitPShip() {
@@ -349,8 +330,7 @@ public class GameWorld extends Observable implements IGameWorld{
 			System.out.println("You Died");
 		}	
 	}
-	//=================================================================
-	
+	//==================================================================
 	// Assuming a Player ship and asteroid exist in the game world and 
 	// hit each other, this will remove both of them from the world.
 	public void crash() {
@@ -376,7 +356,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	//=================================================================
-	
 	// Assuming a Non-Player Ship and Player Ship exist in the game world 
 	// and hit each other, this will remove both of them from the world.
 	public void hit() {
@@ -403,7 +382,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	//=================================================================
-	
 	// Assuming two Asteroids exist in the game world and hit each other,
 	// this will remove both of them from the world.
 	public void destroyTwoAsteroid() {
@@ -434,7 +412,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	//=================================================================
-	
 	// Assuming a Non-Player Ship and an Asteroid exist in the game world 
 	// and hit each other, this will remove both of them from the world.
 	public void asteroidHitNPS() {
@@ -466,7 +443,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	//=================================================================
-	
 	// This will increase the in-game clock by one and tells every movable object
 	// to move. Space Stations will also blink according to the game's time as well.
 	public void tickTock() {
@@ -526,6 +502,21 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 		System.out.println("========================");
 	}	
+	
+	//=================================================================
+	// Enable/Disable Sound
+	public void soundOnOff(){
+	
+		if (soundOn) {
+			soundOn = false;
+		}else {
+			soundOn = true;
+		}
+		
+		notifyObv();
+	}
+	
+	
 	//=================================================================
 	//Proxy get methods
 	
@@ -552,5 +543,7 @@ public class GameWorld extends Observable implements IGameWorld{
 	public GameCollection getCollection() {
 		return this.collection;
 	}
+	
+	
 	
 }

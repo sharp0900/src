@@ -1,14 +1,17 @@
 package com.mycompany.a2;
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Button;
+import com.codename1.ui.CheckBox;
 import com.codename1.ui.Command;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Form;
+import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Border;
 
 import com.mycompany.a2.commands.*;
@@ -26,12 +29,17 @@ public class Game extends Form{
 		gw.addObserver(mv);			// register the map Observer
 		gw.addObserver(pv);			// register the points observer
 		
+		//=================================================================================
+		//Creating layout and side menus
 		this.setLayout(new BorderLayout());
-		Toolbar hamBurgerMenu = new Toolbar();
-		setToolbar(hamBurgerMenu);
-		hamBurgerMenu.getAllStyles().setPadding(1, 0, 0, 0);
-		Label label = new Label("Asteroid Game");
-		hamBurgerMenu.setTitleComponent(label);
+		
+		Toolbar toolBar = new Toolbar();
+		setToolbar(toolBar);
+		toolBar.getAllStyles().setPadding(1, 0, 0, 0);
+		
+		Label label = new Label("The Best Asteroid Game Ever");
+		toolBar.setTitleComponent(label);
+		
 		
 		
 		//=================================================================================
@@ -104,6 +112,10 @@ public class Game extends Form{
 		npsHitAsteroid.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
 		npsHitAsteroid.getAllStyles().setBgTransparency(255);
 		
+		Button station = new Button();
+		station.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
+		station.getAllStyles().setBgTransparency(255);
+		
 		Button tick = new Button();
 		tick.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
 		tick.getAllStyles().setBgTransparency(255);
@@ -112,17 +124,52 @@ public class Game extends Form{
 		exit.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
 		exit.getAllStyles().setBgTransparency(255);
 		
+		
+		//================================================================================
+		// Overflow Commands
+		
+		CheckBox sound = new CheckBox("Sound");
+		sound.setSelected(gw.getSound());
+		Sound soundCommand = new Sound(gw);
+		soundCommand.putClientProperty("SideComponent", sound);
+		toolBar.addCommandToOverflowMenu(soundCommand);
+		toolBar.addCommandToLeftSideMenu(soundCommand);
+		
+		Button newGame = new Button("New");
+		NewGame newGameCmd = new NewGame(gw);
+		toolBar.addCommandToOverflowMenu(newGameCmd);
+		
+		Button save = new Button("Save");
+		Save savecmd = new Save(gw);
+		toolBar.addCommandToOverflowMenu(savecmd);
+		
+		Button undo = new Button("Undo");
+		Undo undoCmp = new Undo(gw);
+		toolBar.addCommandToOverflowMenu(undoCmp);
+		
+		Button about = new Button("About");
+		About aboutCmd = new About(gw);
+		toolBar.addCommandToOverflowMenu(aboutCmd);
+		
+		
+		
 		//================================================================================
 		//Command keyboard input
 		
 		addShip addShipcommand = new addShip(gw);
 		addSpaceShip.setCommand(addShipcommand);
 		addKeyListener('s', addShipcommand);
-		hamBurgerMenu.addCommandToLeftSideMenu(addShipcommand);
+		toolBar.addCommandToLeftSideMenu(addShipcommand);
 		
 		addAsteroidCommand addAsteroid = new addAsteroidCommand(gw);
 		addAsteroidButton.setCommand(addAsteroid);
 		addKeyListener('a', addAsteroid);
+		toolBar.addCommandToLeftSideMenu(addAsteroid);
+		
+		addAsteroidCommand addStation = new addAsteroidCommand(gw);
+		station.setCommand(addStation);
+		addKeyListener('e', addStation);
+		toolBar.addCommandToLeftSideMenu(addStation);
 		
 		nonPlayerShipCommand addNPSShip = new nonPlayerShipCommand(gw);
 		addNonPlayerShip.setCommand(addNPSShip);
@@ -143,14 +190,18 @@ public class Game extends Form{
 		tickCommand tickTock = new tickCommand(gw);
 		tick.setCommand(tickTock);
 		addKeyListener('t', tickTock);
+		toolBar.addCommandToLeftSideMenu(tickTock);
 		
 		exitCommand exitGame = new exitCommand(gw);
 		exit.setCommand(exitGame);
 		addKeyListener('q', exitGame);
+		toolBar.addCommandToLeftSideMenu(exitGame);
+		toolBar.addCommandToOverflowMenu(exitGame);
 		
 		missleRefillCommand refillMissile = new missleRefillCommand(gw);
 		refill.setCommand(refillMissile);
 		addKeyListener('n', refillMissile);
+		toolBar.addCommandToLeftSideMenu(refillMissile);
 		
 		asteroidHitNps asteroidHitNpsCommand = new asteroidHitNps(gw);
 		npsHitAsteroid.setCommand(asteroidHitNpsCommand);
@@ -159,12 +210,15 @@ public class Game extends Form{
 		asteroidHitPs asteroidhitPsCommand = new asteroidHitPs(gw);
 		asteroidHitPs.setCommand(asteroidhitPsCommand);
 		addKeyListener('o', asteroidhitPsCommand);
+		toolBar.addCommandToLeftSideMenu(asteroidhitPsCommand);
 		
 		astHitAstCommand astHitast = new astHitAstCommand(gw);
 		asteroidHitAsteroid.setCommand(astHitast);
+		toolBar.addCommandToLeftSideMenu(astHitast);
 		
 		missHitAsCommand missileHitAs = new missHitAsCommand(gw);
 		missileHitAsteroid.setCommand(missileHitAs);
+		toolBar.addCommandToLeftSideMenu(missileHitAs);
 		
 		missHitNpsCommand missileNpsHit = new missHitNpsCommand(gw);
 		missileHitNps.setCommand(missileNpsHit);
@@ -200,13 +254,14 @@ public class Game extends Form{
 	    add(BorderLayout.CENTER,mv);
 		
 		//Command Buttons Container
-		Container leftContainer = new Container(new BoxLayout(BoxLayout.Y_AXIS));
+		Container leftContainer = new Container(new GridLayout(14,1));
 		leftContainer.getAllStyles().setPadding(Component.LEFT, 10);
 		leftContainer.getAllStyles().setPadding(Component.RIGHT, 10);
 		leftContainer.getAllStyles().setBorder(Border.createLineBorder(4, ColorUtil.BLACK));
 		leftContainer.add(addSpaceShip);
 		leftContainer.add(addAsteroidButton);
 		leftContainer.add(addNonPlayerShip);
+		leftContainer.add(station);
 		leftContainer.add(firePSMissile);
 		leftContainer.add(launchNPCMissle);
 		leftContainer.add(jump);
@@ -216,7 +271,6 @@ public class Game extends Form{
 		leftContainer.add(missileHitAsteroid);
 		leftContainer.add(missileHitNps);
 		leftContainer.add(missileHitPs);
-		leftContainer.add(asteroidHitNps);
 		leftContainer.add(npsHitPs);
 		leftContainer.add(npsHitAsteroid);
 		leftContainer.add(tick);

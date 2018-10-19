@@ -1,18 +1,20 @@
 package com.mycompany.a2.commands;
+
 import com.codename1.ui.Command;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.events.ActionEvent;
 import com.mycompany.a2.GameWorld;
 
-public class asteroidHitNps extends Command {
+public class About extends Command {
+
 	private GameWorld gw;
 	
-	public asteroidHitNps(GameWorld gw) {
-		super("Nps hits Astroid");
+	public About(GameWorld gw) {
+		super("About");
 		this.gw = gw;
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.asteroidHitNPS();
+		Dialog.show("About", "This is an asteroid game", "Ok", "Cancel");
 	}
-	
 }

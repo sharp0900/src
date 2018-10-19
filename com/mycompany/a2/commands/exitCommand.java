@@ -10,7 +10,7 @@ public class exitCommand extends Command {
 	private GameWorld gw;
 	
 	public exitCommand(GameWorld gw) {
-		super("Exit Game");
+		super("Exit");
 		this.gw = gw;
 	}
 	

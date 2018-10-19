@@ -1,5 +1,4 @@
 package com.mycompany.a2;
-import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 import com.codename1.charts.util.ColorUtil;
@@ -29,7 +28,7 @@ public class MapView extends Container implements Observer{
 		while (coll.hasNext()){
 				System.out.println(coll.next().toString());
 		}
-		System.out.println("========================");
+		System.out.println(" ");
 		
 	}
 
