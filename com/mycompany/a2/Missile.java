@@ -1,8 +1,10 @@
 package com.mycompany.a2;
 
 import com.codename1.charts.util.ColorUtil;
+import com.codename1.ui.Graphics;
+import com.codename1.ui.geom.Point;
 
-public class Missile extends MoveableGameObject{
+public class Missile extends MoveableGameObject implements ISelectable{
 
 	private int FuelLevel;
 	private String ship = "";
@@ -44,4 +46,29 @@ public class Missile extends MoveableGameObject{
 					  );
 		return text;
 	}
+
+	@Override
+	public void setSelected(boolean yesNo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isSelected() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean contains(Point pPtrRelPrnt, Point pCmpRelPrnt) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void draw(Graphics g, Point pCmpRelPrnt) {
+		// TODO Auto-generated method stub
+		
+	}
 }
+

@@ -43,8 +43,22 @@ public class GameWorldProxy extends Observable implements IGameWorld {
 		// TODO Auto-generated method stub
 		return gw.getCollection();
 	}
-
 	
+	public int getMapX() {
+		return gw.getMapX();
+	}
+	
+	public int getMapY() {
+		return gw.getMapY();
+	}
+	
+	public int getMapWidth() {
+		return gw.getMapWidth();
+	}
+	
+	public int getMapHeight() {
+		return gw.getMapHeight();		
+	}
 		
 
 

@@ -8,7 +8,7 @@ public class speedUpCommand extends Command{
 	private GameWorld gw;
 	
 	public speedUpCommand(GameWorld gw) {
-		super("Add Some New Asteroid");
+		super("Speed Up");
 		this.gw = gw;
 	}
 	

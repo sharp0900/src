@@ -1,17 +1,23 @@
 package com.mycompany.a2;
 import com.codename1.charts.util.ColorUtil;
+import com.codename1.ui.Graphics;
+import com.codename1.ui.geom.Point;
 
 public class PlayerShip extends Ship implements ISteerable{
 
 	private PlayerMissileLauncher shipLauncher = new PlayerMissileLauncher();
+	private Triangle tri;
 	
 	PlayerShip(){
-		this.setLocation(512, 384);
+		this.setLocation(super.getMapX()+ super.getMapWidth()/2,
+						 super.getMapY()+ super.getMapHeight()/2);
 		this.setHeading(0);
 		this.setSpeed(0);
 		this.shipLauncher.setHeading(this.getHeading());
-		this.shipLauncher.setLocation(512, 384);
+		this.shipLauncher.setLocation(super.getMapX()+ super.getMapWidth()/2,
+				 					  super.getMapY()+ super.getMapHeight()/2);
 		this.shipLauncher.setSpeed(this.getSpeed());
+		this.tri = new Triangle(200, 200);
 	}
 	
 	public void move() {
@@ -79,6 +85,10 @@ public class PlayerShip extends Ship implements ISteerable{
 					  " Missile Launcher Direction: " + this.shipLauncher.getHeading()
 					  );
 		return text;
+	}
+	
+	public void draw(Graphics g, Point pcmpt ) {
+	
 	}
 	
 	

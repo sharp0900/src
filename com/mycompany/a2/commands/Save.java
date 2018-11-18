@@ -14,6 +14,6 @@ public class Save extends Command{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.asteroidHitNPS();
+		
 	}
 }

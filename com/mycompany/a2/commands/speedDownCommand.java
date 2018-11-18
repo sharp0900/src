@@ -9,7 +9,7 @@ public class speedDownCommand extends Command{
 	private GameWorld gw;
 	
 	public speedDownCommand(GameWorld gw) {
-		super("");
+		super("Speed Down");
 		this.gw = gw;
 	}
 	

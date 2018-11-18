@@ -35,6 +35,7 @@ public class PointsView extends Container implements Observer {
 		
 		Container contain = new Container();
 		contain.setLayout(new BoxLayout(BoxLayout.X_AXIS));
+		contain.getAllStyles().setBorder(Border.createLineBorder(4, ColorUtil.BLUE));
 		
 		contain.add(pointsText);
 		contain.add(pointsValueText);

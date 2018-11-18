@@ -2,9 +2,11 @@ package com.mycompany.a2;
 import java.util.Random;
 
 import com.codename1.charts.util.ColorUtil;
+import com.codename1.ui.Graphics;
+import com.codename1.ui.geom.Point;
 
 
-public class Asteroid extends MoveableGameObject{
+public class Asteroid extends MoveableGameObject implements ISelectable{
 
 	private int size;
 	public Asteroid() {
@@ -32,6 +34,30 @@ public class Asteroid extends MoveableGameObject{
 					  " Direction: " + this.getHeading()
 					  );
 		return text;
+	}
+
+	@Override
+	public void setSelected(boolean yesNo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isSelected() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean contains(Point pPtrRelPrnt, Point pCmpRelPrnt) {
+		
+		return false;
+	}
+
+	@Override
+	public void draw(Graphics g, Point pCmpRelPrnt) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	

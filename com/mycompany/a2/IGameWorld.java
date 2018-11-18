@@ -14,5 +14,13 @@ public interface IGameWorld {
 	
 	public boolean getSound();
 	
+	public int getMapX();
+	
+	public int getMapY();
+	
+	public int getMapWidth();
+	
+	public int getMapHeight();
+	
 	
 }

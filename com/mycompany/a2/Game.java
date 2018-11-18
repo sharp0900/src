@@ -21,11 +21,13 @@ public class Game extends Form{
 	private GameWorld gw;
 	private MapView mv;
 	private PointsView pv;
+	private Container leftContainer;
+	
 	
 	public Game() {
-		gw = new GameWorld();		// create "Observable"
-		mv = new MapView();			// create an “Observer” for the map
-		pv = new PointsView();	    // create an “Observer” for the points
+		gw = new GameWorld();		// create Observable
+		mv = new MapView(gw);		// create an Observer for the map
+		pv = new PointsView();	    // create an Observer for the points
 		gw.addObserver(mv);			// register the map Observer
 		gw.addObserver(pv);			// register the points observer
 		
@@ -39,8 +41,6 @@ public class Game extends Form{
 		
 		Label label = new Label("The Best Asteroid Game Ever");
 		toolBar.setTitleComponent(label);
-		
-		
 		
 		//=================================================================================
 		//Command Buttons to be put on left side of GUI
@@ -131,9 +131,7 @@ public class Game extends Form{
 		CheckBox sound = new CheckBox("Sound");
 		sound.setSelected(gw.getSound());
 		Sound soundCommand = new Sound(gw);
-		soundCommand.putClientProperty("SideComponent", sound);
 		toolBar.addCommandToOverflowMenu(soundCommand);
-		toolBar.addCommandToLeftSideMenu(soundCommand);
 		
 		Button newGame = new Button("New");
 		NewGame newGameCmd = new NewGame(gw);
@@ -151,8 +149,6 @@ public class Game extends Form{
 		About aboutCmd = new About(gw);
 		toolBar.addCommandToOverflowMenu(aboutCmd);
 		
-		
-		
 		//================================================================================
 		//Command keyboard input
 		
@@ -166,7 +162,7 @@ public class Game extends Form{
 		addKeyListener('a', addAsteroid);
 		toolBar.addCommandToLeftSideMenu(addAsteroid);
 		
-		addAsteroidCommand addStation = new addAsteroidCommand(gw);
+		addShip addStation = new addShip(gw);
 		station.setCommand(addStation);
 		addKeyListener('e', addStation);
 		toolBar.addCommandToLeftSideMenu(addStation);
@@ -251,10 +247,10 @@ public class Game extends Form{
 		add(BorderLayout.NORTH, pv);
 		
 		//Map View
-	    add(BorderLayout.CENTER,mv);
+	    add(BorderLayout.CENTER, mv);
 		
 		//Command Buttons Container
-		Container leftContainer = new Container(new GridLayout(14,1));
+		leftContainer = new Container(new GridLayout(14,1));
 		leftContainer.getAllStyles().setPadding(Component.LEFT, 10);
 		leftContainer.getAllStyles().setPadding(Component.RIGHT, 10);
 		leftContainer.getAllStyles().setBorder(Border.createLineBorder(4, ColorUtil.BLACK));
@@ -276,8 +272,10 @@ public class Game extends Form{
 		leftContainer.add(tick);
 		leftContainer.add(exit);
 		add(BorderLayout.WEST,leftContainer);
-		
 		this.show();
+		
+		gw.setWidthHeight(mv.getWidth(), mv.getHeight());
+		gw.setXY(mv.getX(), mv.getY());
 	}
 }
 

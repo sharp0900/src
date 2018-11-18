@@ -9,9 +9,14 @@ public class GameWorld extends Observable implements IGameWorld{
 				npShipExist, ssExist, missileExist,
 				points, gameTime;
 	
+	private GameCollection collection;
 	private boolean shipExist;
 	private boolean soundOn;
-	private GameCollection collection;
+	private int mWidth;
+	private int mHeight;
+	private int mapX;
+	private int mapY;
+
 	
 	public GameWorld() {
 		collection = new GameCollection();
@@ -516,9 +521,36 @@ public class GameWorld extends Observable implements IGameWorld{
 		notifyObv();
 	}
 	
+	//=================================================================
+	// Map width/height setters
+	public void setWidthHeight(int width, int height) {
+		mWidth = width;
+		mHeight = height;
+	}	
+	
+	public void setXY(int x, int y) {
+		mapX = x;
+		mapY = y;
+	}
 	
 	//=================================================================
 	//Proxy get methods
+	
+	public int getMapX() {
+		return mapX;
+	}
+	
+	public int getMapY() {
+		return mapY;
+	}
+	
+	public int getMapWidth() {
+		return this.mWidth;
+	}
+	
+	public int getMapHeight() {
+		return this.mHeight;		
+	}
 	
 	public int getPoints() {
 		return this.points;
@@ -543,7 +575,5 @@ public class GameWorld extends Observable implements IGameWorld{
 	public GameCollection getCollection() {
 		return this.collection;
 	}
-	
-	
 	
 }

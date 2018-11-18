@@ -14,7 +14,7 @@ public class Undo extends Command{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.addNPShip();
+
 	}
 	
 }
