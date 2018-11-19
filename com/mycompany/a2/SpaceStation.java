@@ -9,7 +9,8 @@ public class SpaceStation extends FixGameObject{
 	private int blinkRate;
 	private boolean lightOn;
 	
-	SpaceStation(){
+	SpaceStation(GameWorldProxy gw){
+		super(gw);
 		this.blinkRate = new Random().nextInt(4);
 		this.lightOn = true;
 	}

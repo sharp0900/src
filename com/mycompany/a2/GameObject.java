@@ -5,15 +5,17 @@ import com.codename1.ui.geom.Point2D;
 import java.util.Random;
 import com.codename1.charts.util.ColorUtil;
 
-public class GameObject extends GameWorld{
+public class GameObject {
 
 	private Point2D locate = new Point2D(0,0);
 	private int color = ColorUtil.rgb(255,255,255);
 
 
-	public GameObject(){
-		this.locate.setX(new Random().nextInt(this.getMapWidth()));
-		this.locate.setY(new Random().nextInt(this.getMapWidth()));
+	public GameObject(GameWorldProxy gw){
+		
+		
+		this.locate.setX(new Random().nextInt((gw.getMapWidth()-gw.getMapX()) + 1) + gw.getMapX());
+		this.locate.setY(new Random().nextInt((gw.getMapHeight()-gw.getMapY()) + 1) + gw.getMapY());
 	}
 	
 	public Point2D getLocation() {
@@ -33,16 +35,6 @@ public class GameObject extends GameWorld{
 		 this.color = ColorUtil.rgb(r, g, b);
 	}
 
-	public void draw(Graphics g, Point pCmpRelPrnt) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public int getMapX() {
-		return super.getMapWidth();
-	}
-	
-	public int getMapY() {
-		return super.getMapHeight();
+	public void draw(Graphics g, Point pCmpRelPrnt) {	
 	}
 }

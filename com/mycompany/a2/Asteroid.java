@@ -9,7 +9,9 @@ import com.codename1.ui.geom.Point;
 public class Asteroid extends MoveableGameObject implements ISelectable{
 
 	private int size;
-	public Asteroid() {
+	
+	public Asteroid(GameWorldProxy gw) {
+		super(gw);
 		this.size = 6 + new Random().nextInt(24);
 	}
 	
@@ -22,6 +24,7 @@ public class Asteroid extends MoveableGameObject implements ISelectable{
 		double deltaX = (Math.cos(90 - this.getHeading()) * this.getSpeed());
 		double oldLocationY = this.getLocation().getY();
 		double deltaY = (Math.sin(90 - this.getHeading()) * this.getSpeed());
+		
 		this.setLocation(oldLocationX + deltaX, oldLocationY + deltaY);
 	}
 	
@@ -56,8 +59,10 @@ public class Asteroid extends MoveableGameObject implements ISelectable{
 
 	@Override
 	public void draw(Graphics g, Point pCmpRelPrnt) {
-		// TODO Auto-generated method stub
-		
+		g.setColor(ColorUtil.rgb(0,0,0));
+		g.fillArc((int)this.getLocation().getX(), 
+				  (int)this.getLocation().getY(), 
+				  200, 200, 60, 360);
 	}
 	
 	

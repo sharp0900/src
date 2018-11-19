@@ -5,7 +5,8 @@ public class FixGameObject extends GameObject{
 
 	private static int id;
 	
-	public FixGameObject() {
+	public FixGameObject(GameWorldProxy gw) {
+		super(gw);
 		this.id = new Random().nextInt(255);
 	}
 	

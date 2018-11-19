@@ -8,17 +8,20 @@ public class Missile extends MoveableGameObject implements ISelectable{
 
 	private int FuelLevel;
 	private String ship = "";
+	private Triangle tri;
 	
-	Missile(){
+	Missile(GameWorldProxy gw){
+		super(gw);
+		tri = new Triangle(50,50, ColorUtil.rgb(255,0,0));
 		this.FuelLevel = 10;
-		this.setSpeed(1);
+		this.setSpeed(50000);
 	}
 	
 	public void move() {
 		double oldLocationX = this.getLocation().getX();
-		double deltaX = (Math.cos(90 - this.getHeading()) * this.getSpeed());
+		double deltaX = (Math.cos(90 - this.getHeading())) * this.getSpeed();
 		double oldLocationY = this.getLocation().getY();
-		double deltaY = (Math.sin(90 - this.getHeading()) * this.getSpeed());
+		double deltaY = (Math.sin(90 - this.getHeading())) * this.getSpeed();
 		this.setLocation(oldLocationX + deltaX, oldLocationY + deltaY);
 	}
 	
@@ -67,7 +70,8 @@ public class Missile extends MoveableGameObject implements ISelectable{
 
 	@Override
 	public void draw(Graphics g, Point pCmpRelPrnt) {
-		// TODO Auto-generated method stub
+		tri.draw(g, new Point((int) this.getLocation().getX(), 
+	                          (int) this.getLocation().getY()));
 		
 	}
 }

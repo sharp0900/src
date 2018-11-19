@@ -10,6 +10,7 @@ public class GameWorld extends Observable implements IGameWorld{
 				points, gameTime;
 	
 	private GameCollection collection;
+	private GameWorldProxy iG;
 	private boolean shipExist;
 	private boolean soundOn;
 	private int mWidth;
@@ -20,7 +21,9 @@ public class GameWorld extends Observable implements IGameWorld{
 	
 	public GameWorld() {
 		collection = new GameCollection();
+		iG = new GameWorldProxy(this);
 		this.init();
+		notifyObv();
 	}
 	
 	//=================================================================
@@ -40,7 +43,7 @@ public class GameWorld extends Observable implements IGameWorld{
 	// this way I don't have to copy and paste so much.
 	
 	private PlayerShip shipPlayer() { 
-		PlayerShip pShip = new PlayerShip();
+		PlayerShip pShip = new PlayerShip(iG);
 		GameVectorIterator coll = collection.getIterator(); 
 		while(coll.hasNext()) {
 			GameObject temp = coll.next();
@@ -55,7 +58,7 @@ public class GameWorld extends Observable implements IGameWorld{
 	// this way I don't have to copy and paste so much.
 	
 	private NonPlayerShip nonShipPlayer() { 
-		NonPlayerShip npShip = new NonPlayerShip();
+		NonPlayerShip npShip = new NonPlayerShip(iG);
 		GameVectorIterator coll = collection.getIterator(); 
 		while(coll.hasNext()) {
 			GameObject temp = coll.next();
@@ -102,32 +105,36 @@ public class GameWorld extends Observable implements IGameWorld{
 	// This method will add a new Asteroid into the game world.
 	public void addNewAsteroid() {
 		asteroidExist++;
-		collection.add(new Asteroid());		
+		collection.add(new Asteroid(iG));		
 		System.out.println("An Asteroid has spawned");
+		notifyObv();
 	}
 	//=================================================================
 
 	// This method will add a new Space Station into the game world.
 	public void addNewStation() {
 		ssExist++;
-		collection.add(new SpaceStation());
+		collection.add(new SpaceStation(iG));
 		System.out.println("A Space Station has spawned");
+		notifyObv();
 	}
 	//=================================================================
 	
 	// This method will add a new Non-Player Ship into the game world.
 	public void addNPShip() {
 		npShipExist++;
-		collection.add( new NonPlayerShip());
+		collection.add( new NonPlayerShip(iG));
 		System.out.println("A Non-Player Ship has spawned");
+		notifyObv();
 	}
 	//=================================================================
 	// This method will add a new Player Ship into the game world.
 	public void addPShip() {
 		if (shipExist == false) {
-			collection.add(new PlayerShip());
+			collection.add(new PlayerShip(iG));
 			shipExist = true;
 			System.out.println("A Player Ship has spawned");
+			notifyObv();
 		}
 		else {
 			System.out.println("Player Ship has already been launched");	
@@ -138,7 +145,7 @@ public class GameWorld extends Observable implements IGameWorld{
 	public void launch() {
 		if(npShipExist > 0) {
 			missileExist++;
-			Missile missile = new Missile();
+			Missile missile = new Missile(iG);
 			nonShipPlayer().npsShootMissile();
 			missile.setSpeed(nonShipPlayer().getSpeed() + 1);
 			missile.setHeading(nonShipPlayer().getHeading());
@@ -222,7 +229,7 @@ public class GameWorld extends Observable implements IGameWorld{
 	public void fireMissile() {
 		if (shipExist) {
 			missileExist++;
-			Missile missile = new Missile();
+			Missile missile = new Missile(iG);
 			missile.setLocation(shipPlayer().getLocation().getX(), shipPlayer().getLocation().getY());
 			missile.setHeading(shipPlayer().getLauncherDirection());
 			missile.setShip("Player Missile");
@@ -248,7 +255,7 @@ public class GameWorld extends Observable implements IGameWorld{
 			points = points + 10;
 			missileExist--;
 			npShipExist--;
-			GameObject temp = new GameObject();
+			GameObject temp = new GameObject(iG);
 			GameVectorIterator coll = collection.getIterator();
 			while(coll.hasNext()) {
 				temp = coll.next();
@@ -291,7 +298,7 @@ public class GameWorld extends Observable implements IGameWorld{
 			asteroidExist--;
 			points = points + 10;
 			
-			GameObject temp = new GameObject();
+			GameObject temp = new GameObject(iG);
 			GameVectorIterator coll = collection.getIterator();
 			while(coll.hasNext()) {
 				temp = coll.next();
@@ -322,7 +329,7 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 		else {
 			missileExist--;
-			GameObject temp = new GameObject();
+			GameObject temp = new GameObject(iG);
 			GameVectorIterator coll = collection.getIterator();
 			while(coll.hasNext()) {
 				temp = coll.next();
@@ -347,7 +354,7 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 		else {
 			asteroidExist--;
-			GameObject temp = new GameObject();
+			GameObject temp = new GameObject(iG);
 			GameVectorIterator coll = collection.getIterator();
 			while(coll.hasNext()) {
 				temp = coll.next();
@@ -372,7 +379,7 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 		else {
 			npShipExist--;
-			GameObject temp = new GameObject();
+			GameObject temp = new GameObject(iG);
 			GameVectorIterator coll = collection.getIterator();
 			while(coll.hasNext()) {
 				temp = coll.next();
@@ -398,7 +405,7 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 		else {
 			asteroidExist = asteroidExist - 2;
-			GameObject temp = new GameObject();
+			GameObject temp = new GameObject(iG);
 			GameVectorIterator coll = collection.getIterator();
 			while(coll.hasNext()) {
 				temp = coll.next();
@@ -429,7 +436,7 @@ public class GameWorld extends Observable implements IGameWorld{
 		else {
 			asteroidExist--;
 			npShipExist--;
-			GameObject temp = new GameObject();
+			GameObject temp = new GameObject(iG);
 			GameVectorIterator coll = collection.getIterator();
 			while(coll.hasNext()) {
 				temp = coll.next();
@@ -451,7 +458,7 @@ public class GameWorld extends Observable implements IGameWorld{
 	// This will increase the in-game clock by one and tells every movable object
 	// to move. Space Stations will also blink according to the game's time as well.
 	public void tickTock() {
-		GameObject temp = new GameObject();
+		GameObject temp = new GameObject(iG);
 		GameVectorIterator coll = collection.getIterator();
 		gameTime++;
 		if(ssExist > 0) {	// If Space Station exist, modify the blink rate.

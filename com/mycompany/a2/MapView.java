@@ -26,13 +26,12 @@ public class MapView extends Container implements Observer{
 	
 	
 	public void update(Observable observable, Object data) {
-//		GameVectorIterator coll = ((IGameWorld) data).getCollection().getIterator();
-//		System.out.println("========================");
-//		while (coll.hasNext()){
-//				System.out.println(coll.next().toString());
-//		}
-//		System.out.println(" ");
-		((GameWorld)data).setWidthHeight(getWidth(), getHeight());
+		GameVectorIterator coll = ((IGameWorld) data).getCollection().getIterator();
+		System.out.println("========================");
+		while (coll.hasNext()){
+				System.out.println(coll.next().toString());
+		}
+		System.out.println(" ");
 		repaint();
 		
 	}

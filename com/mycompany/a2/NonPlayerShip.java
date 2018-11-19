@@ -1,12 +1,18 @@
 package com.mycompany.a2;
 
 import com.codename1.charts.util.ColorUtil;
+import com.codename1.ui.Graphics;
+import com.codename1.ui.geom.Point;
 
-public class NonPlayerShip extends Ship{
+public class NonPlayerShip extends Ship implements IDrawable{
 
-	private MissileLauncher npLauncher = new MissileLauncher();
+	private MissileLauncher npLauncher;
+	private Triangle tri;
 	
-	NonPlayerShip(){
+	NonPlayerShip(GameWorldProxy gw){
+		super(gw);
+		tri = new Triangle(100, 100, ColorUtil.rgb(0,0,0));
+		npLauncher = new MissileLauncher(gw);
 		npLauncher.setHeading(this.getHeading());
 		npLauncher.setSpeed(this.getSpeed());
 		npLauncher.setLocation(this.getLocation().getX(), this.getLocation().getY());
@@ -41,5 +47,11 @@ public class NonPlayerShip extends Ship{
 					  );
 		return text;
 	}
+	
+	public void draw(Graphics g, Point pCmpRelPrnt) {
+		tri.draw(g, new Point((int) this.getLocation().getX(), 
+	              			  (int) this.getLocation().getY()));
+	}
+
 	
 }

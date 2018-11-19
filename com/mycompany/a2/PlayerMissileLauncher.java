@@ -2,6 +2,12 @@ package com.mycompany.a2;
 
 public class PlayerMissileLauncher extends MissileLauncher implements ISteerable{
 	
+
+	public PlayerMissileLauncher(GameWorldProxy gw) {
+		super(gw);
+		// TODO Auto-generated constructor stub
+	}
+
 	public void move() {
 		double oldLocationX = this.getLocation().getX();
 		double deltaX = (Math.cos(90 - this.getHeading()) * this.getSpeed());

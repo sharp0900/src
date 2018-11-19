@@ -5,26 +5,28 @@ import com.codename1.ui.geom.Point;
 
 public class PlayerShip extends Ship implements ISteerable{
 
-	private PlayerMissileLauncher shipLauncher = new PlayerMissileLauncher();
+	private PlayerMissileLauncher shipLauncher;
 	private Triangle tri;
 	
-	PlayerShip(){
-		this.setLocation(super.getMapX()+ super.getMapWidth()/2,
-						 super.getMapY()+ super.getMapHeight()/2);
+	PlayerShip(GameWorldProxy gw){
+		super(gw);
+		shipLauncher = new PlayerMissileLauncher(gw);
+		this.setLocation(gw.getMapX()+ gw.getMapWidth()/2,
+						 gw.getMapY()+ gw.getMapHeight()/2);
 		this.setHeading(0);
 		this.setSpeed(0);
 		this.shipLauncher.setHeading(this.getHeading());
-		this.shipLauncher.setLocation(super.getMapX()+ super.getMapWidth()/2,
-				 					  super.getMapY()+ super.getMapHeight()/2);
+		this.shipLauncher.setLocation(gw.getMapX()+ gw.getMapWidth()/2,
+				 					  gw.getMapY()+ gw.getMapHeight()/2);
 		this.shipLauncher.setSpeed(this.getSpeed());
-		this.tri = new Triangle(200, 200);
+		this.tri = new Triangle(200, 200, ColorUtil.rgb(255,0,255));
 	}
 	
 	public void move() {
 		double oldLocationX = this.getLocation().getX();
-		double deltaX = (Math.cos(90 - this.getHeading()) * this.getSpeed());
+		double deltaX = ((Math.cos(90 - this.getHeading())) * (this.getSpeed()));
 		double oldLocationY = this.getLocation().getY();
-		double deltaY = (Math.sin(90 - this.getHeading()) * this.getSpeed());
+		double deltaY = ((Math.sin(90 - this.getHeading())) * (this.getSpeed()));
 		this.setLocation(oldLocationX + deltaX, oldLocationY + deltaY);
 	}
 	
@@ -43,17 +45,17 @@ public class PlayerShip extends Ship implements ISteerable{
 	}
 	
 	public void steerRight() {
-		this.setHeading(this.getHeading() - 10);
+		this.setHeading(-10);
 		this.shipLauncher.setHeading(this.getHeading());
 	}
 	
 	public void steerLeft() {
-		this.setHeading(this.getHeading() + 10);
+		this.setHeading(10);
 		this.shipLauncher.setHeading(this.getHeading());
 	}
 	
 	public void rotateLauncher(){
-		this.shipLauncher.setHeading(this.getHeading() + 10);
+		this.shipLauncher.setHeading(10);
 	}
 	
 	public int getLauncherDirection() {
@@ -61,15 +63,15 @@ public class PlayerShip extends Ship implements ISteerable{
 	}
 	
 	public void speedUp() {
-		if(this.getSpeed() < 10 ) {
-			this.setSpeed(getSpeed() + 1);
+		if(this.getSpeed() < 60 ) {
+			this.setSpeed(getSpeed() + 5);
 			this.shipLauncher.setSpeed(this.getSpeed());
 		}
 	}
 	
 	public void speedDown() {
 		if(this.getSpeed() > 0) {
-			this.setSpeed(getSpeed() - 1);
+			this.setSpeed(getSpeed() - 5);
 			this.shipLauncher.setSpeed(this.getSpeed());
 		}
 	}
@@ -87,8 +89,9 @@ public class PlayerShip extends Ship implements ISteerable{
 		return text;
 	}
 	
-	public void draw(Graphics g, Point pcmpt ) {
-	
+	public void draw(Graphics g, Point pCmpRelPrnt) {
+		tri.draw(g, new Point((int) this.getLocation().getX(), 
+				              (int) this.getLocation().getY()));
 	}
 	
 	

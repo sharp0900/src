@@ -162,7 +162,7 @@ public class Game extends Form{
 		addKeyListener('a', addAsteroid);
 		toolBar.addCommandToLeftSideMenu(addAsteroid);
 		
-		addShip addStation = new addShip(gw);
+		addStationCommand addStation = new addStationCommand(gw);
 		station.setCommand(addStation);
 		addKeyListener('e', addStation);
 		toolBar.addCommandToLeftSideMenu(addStation);
@@ -276,6 +276,7 @@ public class Game extends Form{
 		
 		gw.setWidthHeight(mv.getWidth(), mv.getHeight());
 		gw.setXY(mv.getX(), mv.getY());
+
 	}
 }
 

@@ -4,7 +4,8 @@ public abstract class Ship extends MoveableGameObject {
 
 	private int missileCount;
 	
-	Ship(){
+	Ship(GameWorldProxy gw){
+		super(gw);
 		missileCount = 10;
 	}
 	
