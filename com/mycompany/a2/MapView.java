@@ -26,12 +26,12 @@ public class MapView extends Container implements Observer{
 	
 	
 	public void update(Observable observable, Object data) {
-		GameVectorIterator coll = ((IGameWorld) data).getCollection().getIterator();
-		System.out.println("========================");
-		while (coll.hasNext()){
-				System.out.println(coll.next().toString());
-		}
-		System.out.println(" ");
+//		GameVectorIterator coll = ((IGameWorld) data).getCollection().getIterator();
+//		System.out.println("========================");
+//		while (coll.hasNext()){
+//				System.out.println(coll.next().toString());
+//		}
+//		System.out.println(" ");
 		repaint();
 		
 	}
@@ -39,6 +39,7 @@ public class MapView extends Container implements Observer{
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
+		
 		GameCollection collection = gw1.getCollection();
 		GameVectorIterator vector = collection.getIterator();
 		while (vector.hasNext()) {

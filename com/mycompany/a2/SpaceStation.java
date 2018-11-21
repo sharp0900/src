@@ -3,8 +3,10 @@ package com.mycompany.a2;
 import java.util.Random;
 
 import com.codename1.charts.util.ColorUtil;
+import com.codename1.ui.Graphics;
+import com.codename1.ui.geom.Point;
 
-public class SpaceStation extends FixGameObject{
+public class SpaceStation extends FixGameObject implements IDrawable{
 
 	private int blinkRate;
 	private boolean lightOn;
@@ -36,5 +38,12 @@ public class SpaceStation extends FixGameObject{
 					  " Is light on: " + this.getLight()
 					  );
 		return text;
+	}
+	
+	public void draw(Graphics g, Point p) {
+		g.setColor(ColorUtil.rgb(255, 100, 100));
+		g.fillRect((int)this.getLocation().getX(), 
+				   (int)this.getLocation().getY(), 
+				   200, 100, (byte)100);
 	}
 }

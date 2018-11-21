@@ -59,7 +59,8 @@ public class GameWorldProxy extends Observable implements IGameWorld {
 	public int getMapHeight() {
 		return gw.getMapHeight();		
 	}
-		
-
-
+	
+	public void setAsteroidCollide(GameObject a, GameObject b) {
+		gw.setAsteroidCollide(a, b);
+	}
 }

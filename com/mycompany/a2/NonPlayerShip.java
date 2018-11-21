@@ -6,12 +6,17 @@ import com.codename1.ui.geom.Point;
 
 public class NonPlayerShip extends Ship implements IDrawable{
 
+	private GameWorldProxy gwp;
 	private MissileLauncher npLauncher;
 	private Triangle tri;
+	private int sizeH = 100;
+	private int sizeB = 100;
+	
 	
 	NonPlayerShip(GameWorldProxy gw){
 		super(gw);
-		tri = new Triangle(100, 100, ColorUtil.rgb(0,0,0));
+		this.gwp = gw;
+		tri = new Triangle(sizeB, sizeH, ColorUtil.rgb(0,0,0));
 		npLauncher = new MissileLauncher(gw);
 		npLauncher.setHeading(this.getHeading());
 		npLauncher.setSpeed(this.getSpeed());
@@ -24,6 +29,19 @@ public class NonPlayerShip extends Ship implements IDrawable{
 		double oldLocationY = this.getLocation().getY();
 		double deltaY = (Math.sin(90 - this.getHeading()) * this.getSpeed());
 		this.setLocation(oldLocationX + deltaX, oldLocationY + deltaY);
+		
+		// This will cause the object to show up on the opposite side of the map
+		// if the object goes out of the maps bounds.
+		if (this.getLocation().getX() + this.sizeB/2 > gwp.getMapWidth() + gwp.getMapX()) {
+			this.setLocation(gwp.getMapX(), this.getLocation().getY());
+		} else if (this.getLocation().getX() < gwp.getMapX()) {
+			this.setLocation(gwp.getMapWidth() + gwp.getMapX() - this.sizeB/2, this.getLocation().getY());
+		}
+		if (this.getLocation().getY() + this.sizeH/2 > gwp.getMapHeight() + gwp.getMapY()) {
+			this.setLocation(this.getLocation().getX(), gwp.getMapY());
+		} else if(this.getLocation().getY() < gwp.getMapY()) {
+			this.setLocation(this.getLocation().getX(), gwp.getMapHeight() + gwp.getMapY() - this.sizeH/2);
+		}
 	}
 	
 	public void npsShootMissile(){

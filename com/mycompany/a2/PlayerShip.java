@@ -3,31 +3,49 @@ import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
 
-public class PlayerShip extends Ship implements ISteerable{
+public class PlayerShip extends Ship implements ISteerable,IDrawable{
 
+	private GameWorldProxy gwp;
 	private PlayerMissileLauncher shipLauncher;
 	private Triangle tri;
+	private int sizeH = 200;
+	private int sizeB = 200;
 	
 	PlayerShip(GameWorldProxy gw){
 		super(gw);
+		this.gwp = gw;
+		this.setHeading(0);
+		this.setSpeed(0);
 		shipLauncher = new PlayerMissileLauncher(gw);
 		this.setLocation(gw.getMapX()+ gw.getMapWidth()/2,
 						 gw.getMapY()+ gw.getMapHeight()/2);
-		this.setHeading(0);
-		this.setSpeed(0);
-		this.shipLauncher.setHeading(this.getHeading());
-		this.shipLauncher.setLocation(gw.getMapX()+ gw.getMapWidth()/2,
-				 					  gw.getMapY()+ gw.getMapHeight()/2);
 		this.shipLauncher.setSpeed(this.getSpeed());
-		this.tri = new Triangle(200, 200, ColorUtil.rgb(255,0,255));
+		this.shipLauncher.setHeading(this.getHeading());
+		this.shipLauncher.setLocation(gw.getMapX()+ gw.getMapWidth()/2 + sizeB,
+				 					  gw.getMapY()+ gw.getMapHeight()/2 + sizeH);
+		
+		this.tri = new Triangle(sizeB, sizeH, ColorUtil.argb(60,255,0,255));
 	}
 	
 	public void move() {
 		double oldLocationX = this.getLocation().getX();
-		double deltaX = ((Math.cos(90 - this.getHeading())) * (this.getSpeed()));
+		double deltaX = ((float)(Math.cos(90 - this.getHeading()) * (this.getSpeed())));
 		double oldLocationY = this.getLocation().getY();
-		double deltaY = ((Math.sin(90 - this.getHeading())) * (this.getSpeed()));
+		double deltaY = ((float)(Math.sin(90 - this.getHeading())) * (this.getSpeed()));
 		this.setLocation(oldLocationX + deltaX, oldLocationY + deltaY);
+		
+		// This will cause the object to show up on the opposite side of the map
+		// if the object goes out of the maps bounds.
+		if (this.getLocation().getX() + this.sizeB/2 > gwp.getMapWidth() + gwp.getMapX()) {
+			this.setLocation(gwp.getMapX(), this.getLocation().getY());
+		} else if (this.getLocation().getX() < gwp.getMapX()) {
+			this.setLocation(gwp.getMapWidth() + gwp.getMapX() - this.sizeB/2, this.getLocation().getY());
+		}
+		if (this.getLocation().getY() + this.sizeH/2 > gwp.getMapHeight() + gwp.getMapY()) {
+			this.setLocation(this.getLocation().getX(), gwp.getMapY());
+		} else if(this.getLocation().getY() < gwp.getMapY()) {
+			this.setLocation(this.getLocation().getX(), gwp.getMapHeight() + gwp.getMapY() - this.sizeH/2);
+		}
 	}
 	
 	public void refillMissile() {
@@ -87,12 +105,14 @@ public class PlayerShip extends Ship implements ISteerable{
 					  " Missile Launcher Direction: " + this.shipLauncher.getHeading()
 					  );
 		return text;
+		
 	}
 	
 	public void draw(Graphics g, Point pCmpRelPrnt) {
 		tri.draw(g, new Point((int) this.getLocation().getX(), 
 				              (int) this.getLocation().getY()));
 	}
+	
 	
 	
 }

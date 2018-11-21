@@ -7,6 +7,7 @@ public class GameCollection implements ICollection {
 
 	private Vector<GameObject> collection;
 	
+	
 	public GameCollection() {
 		collection = new Vector<GameObject>();
 	}
@@ -20,8 +21,8 @@ public class GameCollection implements ICollection {
 	}
 
 	public void remove(GameObject obj) {
-		
 		collection.remove(obj);
+		this.getIterator().remove();
 	}
 	
 	public class GameVectorIterator implements Iterator {
@@ -35,6 +36,7 @@ public class GameCollection implements ICollection {
 		@Override
 		public boolean hasNext() {
 			
+			System.out.println(collection.size());
 			if (collection.size() <= 0) {
 				return false;
 			}
@@ -50,8 +52,9 @@ public class GameCollection implements ICollection {
 			return collection.elementAt(currElementIndex);
 		}
 
+		@Override
 		public void remove() {
-			// TODO Auto-generated method stub	
+			currElementIndex--;
 		}
 
 	}

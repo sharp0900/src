@@ -6,26 +6,39 @@ import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
 
 
-public class Asteroid extends MoveableGameObject implements ISelectable{
+public class Asteroid extends MoveableGameObject implements ISelectable,IDrawable,ICollider{
 
 	private int size;
+	private GameWorldProxy gwp;
 	
 	public Asteroid(GameWorldProxy gw) {
 		super(gw);
-		this.size = 6 + new Random().nextInt(24);
-	}
-	
-	public int getSize() {
-		return this.size;
+		gwp = gw;
+		this.size = 60 + new Random().nextInt(240);
+		super.setSize(this.size);
 	}
 	
 	public void move() {
+		// This will move and animate the object to where it needs to be
+		// when the tick button is pressed.
 		double oldLocationX = this.getLocation().getX();
 		double deltaX = (Math.cos(90 - this.getHeading()) * this.getSpeed());
 		double oldLocationY = this.getLocation().getY();
 		double deltaY = (Math.sin(90 - this.getHeading()) * this.getSpeed());
-		
 		this.setLocation(oldLocationX + deltaX, oldLocationY + deltaY);
+		
+		// This will cause the object to show up on the opposite side of the map
+		// if the object goes out of the maps bounds.
+		if (this.getLocation().getX() + this.size > gwp.getMapWidth() + gwp.getMapX()) {
+			this.setLocation(gwp.getMapX(), this.getLocation().getY());
+		} else if (this.getLocation().getX() < gwp.getMapX()) {
+			this.setLocation(gwp.getMapWidth() + gwp.getMapX() - this.getSize(), this.getLocation().getY());
+		}
+		if (this.getLocation().getY() + this.size > gwp.getMapHeight() + gwp.getMapY()) {
+			this.setLocation(this.getLocation().getX(), gwp.getMapY());
+		} else if(this.getLocation().getY() < gwp.getMapY()) {
+			this.setLocation(this.getLocation().getX(), gwp.getMapHeight() + gwp.getMapY() - this.getSize());
+		}
 	}
 	
 	public String toString() {
@@ -59,10 +72,44 @@ public class Asteroid extends MoveableGameObject implements ISelectable{
 
 	@Override
 	public void draw(Graphics g, Point pCmpRelPrnt) {
-		g.setColor(ColorUtil.rgb(0,0,0));
-		g.fillArc((int)this.getLocation().getX(), 
-				  (int)this.getLocation().getY(), 
-				  200, 200, 60, 360);
+		g.setColor(ColorUtil.argb(100,200,50,100));
+		g.fillRoundRect((int)this.getLocation().getX(), 
+				  		(int)this.getLocation().getY(), 
+				  		this.size, this.size, 120, 360);
+		
+	}
+	
+	public boolean collideWith(ICollider gameObject) {
+		GameObject obj = (GameObject) gameObject;
+		boolean result = false;
+		int thisCenterX = (int) (this.getLocation().getX() + (this.size/2)); // find centers
+		int thisCenterY = (int) (this.getLocation().getY() + (this.size/2));
+		int otherCenterX = (int) (obj.getLocation().getX() + (obj.getSize()/2));
+		int otherCenterY = (int) (obj.getLocation().getY() + (obj.getSize()/2));
+		// find dist between centers (use square, to avoid taking roots)
+		int dx = thisCenterX - otherCenterX;
+		int dy = thisCenterY - otherCenterY;
+		int distBetweenCentersSqr = (dx*dx + dy*dy);
+		// find square of sum of radii
+		int thisRadius = this.size/2;
+		int otherRadius = obj.getSize()/2;
+		int radiiSqr = (thisRadius*thisRadius + 2*thisRadius*otherRadius
+		+ otherRadius*otherRadius);
+		if (distBetweenCentersSqr <= radiiSqr) { result = true ; }
+		return result ;
+	}
+
+	
+	public void handleCollision(ICollider gameObject) {
+		System.out.println("Two Astroids have crashed: ");
+		GameObject go = (GameObject) gameObject;
+		GameObject asteroid = this;
+		
+		if(go instanceof Asteroid) {
+			gwp.setAsteroidCollide(asteroid, go);
+		}
+		
+		
 	}
 	
 	

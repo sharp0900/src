@@ -23,7 +23,6 @@ public class GameWorld extends Observable implements IGameWorld{
 		collection = new GameCollection();
 		iG = new GameWorldProxy(this);
 		this.init();
-		notifyObv();
 	}
 	
 	//=================================================================
@@ -89,7 +88,6 @@ public class GameWorld extends Observable implements IGameWorld{
 						notifyObv();
 					}
 				}
-				System.exit(0);
 			}
 		}
 	}
@@ -206,7 +204,8 @@ public class GameWorld extends Observable implements IGameWorld{
 	// This method will reset the Player ship's position.
 	public void jump() {
 		if (shipExist) {
-			shipPlayer().setLocation(512, 384);
+			shipPlayer().setLocation(this.getMapX() + this.getMapWidth()/2,
+									 this.getMapY() + this.getMapHeight()/2);
 			System.out.println("Player Ship jumped to center of map");
 		}
 		else {
@@ -236,6 +235,7 @@ public class GameWorld extends Observable implements IGameWorld{
 			missile.setSpeed(shipPlayer().getSpeed() + 2);
 			shipPlayer().ShootMissile();
 			collection.add(missile);
+			notifyObv();
 		}
 		else {
 			System.out.println("Player Ship does not exist.");
@@ -396,7 +396,7 @@ public class GameWorld extends Observable implements IGameWorld{
 	//=================================================================
 	// Assuming two Asteroids exist in the game world and hit each other,
 	// this will remove both of them from the world.
-	public void destroyTwoAsteroid() {
+	public void destroyTwoAsteroid(GameObject a, GameObject b) {
 		boolean flagA = false;
 		boolean flagAA = false;
 		
@@ -405,18 +405,17 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 		else {
 			asteroidExist = asteroidExist - 2;
-			GameObject temp = new GameObject(iG);
 			GameVectorIterator coll = collection.getIterator();
+			
 			while(coll.hasNext()) {
-				temp = coll.next();
-				if (!flagA && temp instanceof Asteroid) {
+				if (!flagA && a instanceof Asteroid) {
 					flagA = true;
-					collection.remove(temp);
+					collection.remove(a);
 					coll = collection.getIterator();
 				}
-				if (!flagAA && temp instanceof Asteroid) {
+				if (!flagAA && b instanceof Asteroid) {
 					flagAA = true;
-					collection.remove(temp);
+					collection.remove(b);
 					coll = collection.getIterator();
 				}
 			}
@@ -460,6 +459,7 @@ public class GameWorld extends Observable implements IGameWorld{
 	public void tickTock() {
 		GameObject temp = new GameObject(iG);
 		GameVectorIterator coll = collection.getIterator();
+		GameVectorIterator coll2 = collection.getIterator();
 		gameTime++;
 		if(ssExist > 0) {	// If Space Station exist, modify the blink rate.
 			int blinkRate = 0;
@@ -495,11 +495,21 @@ public class GameWorld extends Observable implements IGameWorld{
 		coll = collection.getIterator();
 		while(coll.hasNext()) {	// Move every movable object in the game world.
 			temp = coll.next();
+			coll2 = collection.getIterator();
+			
+			while(coll2.hasNext()) {
+				ICollider otherObj = (ICollider) coll2.next();
+				if(otherObj!=temp) {
+					if(temp.collideWith(otherObj)) {
+						temp.handleCollision(otherObj);
+					}
+				}
+			}
 			if( temp instanceof IMoveable) {
 				((IMoveable) temp).move();
 			}
+			notifyObv();	
 		}
-		
 		notifyObv();
 	}
 	//=================================================================
@@ -581,6 +591,10 @@ public class GameWorld extends Observable implements IGameWorld{
 
 	public GameCollection getCollection() {
 		return this.collection;
+	}
+	
+	public void setAsteroidCollide(GameObject a, GameObject b) {
+		this.destroyTwoAsteroid(a, b);
 	}
 	
 }
