@@ -23,11 +23,11 @@ public class NonPlayerShip extends Ship implements IDrawable{
 		npLauncher.setLocation(this.getLocation().getX(), this.getLocation().getY());
 	}
 	
-	public void move() {
+	public void move(int tick) {
 		double oldLocationX = this.getLocation().getX();
-		double deltaX = (Math.cos(90 - this.getHeading()) * this.getSpeed());
+		double deltaX = (Math.cos(90 - this.getHeading()) * this.getSpeed() * tick);
 		double oldLocationY = this.getLocation().getY();
-		double deltaY = (Math.sin(90 - this.getHeading()) * this.getSpeed());
+		double deltaY = (Math.sin(90 - this.getHeading()) * this.getSpeed() * tick);
 		this.setLocation(oldLocationX + deltaX, oldLocationY + deltaY);
 		
 		// This will cause the object to show up on the opposite side of the map

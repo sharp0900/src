@@ -1,4 +1,7 @@
 package com.mycompany.a2;
+
+import java.util.Timer;
+
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
@@ -9,20 +12,22 @@ import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.animations.Timeline;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Border;
-
+import com.codename1.ui.util.UITimer;
 import com.mycompany.a2.commands.*;
 
-public class Game extends Form{
+public class Game extends Form implements Runnable{
 
 	private GameWorld gw;
 	private MapView mv;
 	private PointsView pv;
 	private Container leftContainer;
-	
+	private UITimer timer;
+	private int tick;
 	
 	public Game() {
 		gw = new GameWorld();		// create Observable
@@ -30,6 +35,11 @@ public class Game extends Form{
 		pv = new PointsView();	    // create an Observer for the points
 		gw.addObserver(mv);			// register the map Observer
 		gw.addObserver(pv);			// register the points observer
+
+		//=================================================================================
+		tick = 20;
+		timer = new UITimer(this);
+		timer.schedule(tick, false, this);
 		
 		//=================================================================================
 		//Creating layout and side menus
@@ -183,7 +193,7 @@ public class Game extends Form{
 		jump.setCommand(hyperSpace);
 		addKeyListener('j', hyperSpace);
 		
-		tickCommand tickTock = new tickCommand(gw);
+		tickCommand tickTock = new tickCommand(this);
 		tick.setCommand(tickTock);
 		addKeyListener('t', tickTock);
 		toolBar.addCommandToLeftSideMenu(tickTock);
@@ -278,5 +288,32 @@ public class Game extends Form{
 		gw.setXY(mv.getX(), mv.getY());
 
 	}
+	
+	public void run() {
+		
+		gw.tickTock(tick);
+		
+	}
+	
+	public void pause() {
+		timer.cancel();
+		disableButtons();
+		gw.pause();
+	}
+	
+	public void play() {
+		timer.schedule(tick, true, this);
+		enableButtons();
+		gw.play();
+	}
+	
+	private void disableButtons() {
+		
+	}
+	
+	private void enableButtons() {
+		
+	}
+	
 }
 

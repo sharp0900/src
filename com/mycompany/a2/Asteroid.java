@@ -17,13 +17,13 @@ public class Asteroid extends MoveableGameObject implements ISelectable,IDrawabl
 		super.setSize(this.size);
 	}
 	
-	public void move() {
+	public void move(int tick) {
 		// This will move and animate the object to where it needs to be
 		// when the tick button is pressed.
 		double oldLocationX = this.getLocation().getX();
-		double deltaX = (Math.cos(90 - this.getHeading()) * this.getSpeed());
+		double deltaX = (Math.cos(90 - this.getHeading()) * this.getSpeed() * tick);
 		double oldLocationY = this.getLocation().getY();
-		double deltaY = (Math.sin(90 - this.getHeading()) * this.getSpeed());
+		double deltaY = (Math.sin(90 - this.getHeading()) * this.getSpeed() * tick);
 		this.setLocation(oldLocationX + deltaX, oldLocationY + deltaY);
 		
 		// This will cause the object to show up on the opposite side of the map

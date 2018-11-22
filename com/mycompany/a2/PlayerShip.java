@@ -27,11 +27,11 @@ public class PlayerShip extends Ship implements ISteerable,IDrawable{
 		this.tri = new Triangle(sizeB, sizeH, ColorUtil.argb(60,255,0,255));
 	}
 	
-	public void move() {
+	public void move(int tick) {
 		double oldLocationX = this.getLocation().getX();
-		double deltaX = ((float)(Math.cos(90 - this.getHeading()) * (this.getSpeed())));
+		double deltaX = ((float)(Math.cos(90 - this.getHeading()) * (this.getSpeed() * tick)));
 		double oldLocationY = this.getLocation().getY();
-		double deltaY = ((float)(Math.sin(90 - this.getHeading())) * (this.getSpeed()));
+		double deltaY = ((float)(Math.sin(90 - this.getHeading())) * (this.getSpeed() * tick));
 		this.setLocation(oldLocationX + deltaX, oldLocationY + deltaY);
 		
 		// This will cause the object to show up on the opposite side of the map
@@ -143,6 +143,7 @@ public class PlayerShip extends Ship implements ISteerable,IDrawable{
 			gwp.setIsDead(this);
 		}
 	}
+
 	
 	
 }

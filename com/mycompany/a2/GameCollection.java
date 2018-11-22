@@ -1,4 +1,5 @@
 package com.mycompany.a2;
+
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -22,7 +23,7 @@ public class GameCollection implements ICollection {
 
 	public void remove(GameObject obj) {
 		collection.remove(obj);
-		this.getIterator().remove();
+		//this.getIterator().remove();
 	}
 	
 	public class GameVectorIterator implements Iterator {
@@ -35,10 +36,11 @@ public class GameCollection implements ICollection {
 		
 		@Override
 		public boolean hasNext() {
+			
 			if (collection.size() <= 0) {
 				return false;
 			}
-			if(currElementIndex == collection.size() -1) {
+			if(currElementIndex == collection.size() - 1) {
 				return false;
 			}
 			return true;
@@ -52,7 +54,8 @@ public class GameCollection implements ICollection {
 
 		@Override
 		public void remove() {
-			currElementIndex--;
+			// TODO Auto-generated method stub
+			
 		}
 
 	}

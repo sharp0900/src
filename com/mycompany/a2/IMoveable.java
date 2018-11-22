@@ -1,6 +1,6 @@
 package com.mycompany.a2;
 
 public interface IMoveable {
-	public void move();
+	public void move(int tick);
 	
 }
