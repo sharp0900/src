@@ -35,8 +35,6 @@ public class GameCollection implements ICollection {
 		
 		@Override
 		public boolean hasNext() {
-			
-			System.out.println(collection.size());
 			if (collection.size() <= 0) {
 				return false;
 			}

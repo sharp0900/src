@@ -14,7 +14,7 @@ public class missHitAsCommand extends Command{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.destroyAsteroid();
+		//gw.destroyAsteroid();
 	}
 	
 }

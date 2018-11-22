@@ -9,36 +9,35 @@ public class GameWorldProxy extends Observable implements IGameWorld {
 		this.gw = gw;
 	}
 	
+	public boolean getExist(GameObject obj) {
+		return gw.collectionExist(obj);
+	}
+	
 	public int getPoints() {
 		// TODO Auto-generated method stub
 		return gw.getPoints();
 	}
 
-	@Override
 	public int getGameTime() {
 		// TODO Auto-generated method stub
 		return gw.getGameTime();
 	}
 
-	@Override
 	public int getShipLife() {
 		// TODO Auto-generated method stub
 		return gw.getShipLife();
 	}
 
 
-	@Override
 	public boolean getSound() {
 		// TODO Auto-generated method stub
 		return gw.getSound();
 	}
 
-	@Override
 	public int getMissileCount() {
 		return gw.getMissileCount();
 	}
 
-	@Override
 	public GameCollection getCollection() {
 		// TODO Auto-generated method stub
 		return gw.getCollection();
@@ -60,7 +59,10 @@ public class GameWorldProxy extends Observable implements IGameWorld {
 		return gw.getMapHeight();		
 	}
 	
-	public void setAsteroidCollide(GameObject a, GameObject b) {
-		gw.setAsteroidCollide(a, b);
+	public void setIsDead(GameObject ship) {
+		 gw.setIsDead(ship);
 	}
+	
+	//================================================================
+	// collision handling methods
 }

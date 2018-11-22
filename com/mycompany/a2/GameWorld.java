@@ -5,7 +5,7 @@ import com.mycompany.a2.GameCollection.GameVectorIterator;
 
 public class GameWorld extends Observable implements IGameWorld{
 	
-	private int shipLife, asteroidExist, 
+	private int shipLife, 
 				npShipExist, ssExist, missileExist,
 				points, gameTime;
 	
@@ -30,7 +30,6 @@ public class GameWorld extends Observable implements IGameWorld{
 	public void init() {
 		shipExist = false;
 		shipLife = 3;
-		asteroidExist = 0;
 		npShipExist = 0;
 		ssExist = 0;
 		missileExist = 0;
@@ -72,25 +71,39 @@ public class GameWorld extends Observable implements IGameWorld{
 	
 	// This method will check if the player ship exist and force a game over.
 	// It will also decrease player's life count if life is greater than zero. 
-	private void isDead() {
+	private void isDead(GameObject ship) {
+		
 		if (shipExist){
 			if (shipLife > 0) {
 				shipLife--;
+				this.jump();
 				notifyObv();
 			}
 			else if (shipLife == 0){
 				shipExist = false;
-				GameVectorIterator coll = collection.getIterator(); 
-				while (coll.hasNext()) {
-					GameObject temp = coll.next();
-					if(temp instanceof PlayerShip) {
-						collection.remove(temp);
-						notifyObv();
-					}
+				collection.remove(ship);
+				notifyObv();
 				}
-			}
 		}
 	}
+	
+	//================================================================
+	// This Method will check to see if the object exists in the collector
+	
+	public boolean collectionExist(GameObject obj) {
+		boolean exist = false;
+		
+		GameCollection coll = this.getCollection();
+		GameVectorIterator itterate = coll.getIterator();
+		while (itterate.hasNext()) {
+			if (itterate.next() == obj) {
+				exist = true;
+			}
+		}
+		
+		return exist;
+	}
+	
 	//=================================================================
 	
 	//This will print out all the details of the game.
@@ -102,7 +115,6 @@ public class GameWorld extends Observable implements IGameWorld{
 	
 	// This method will add a new Asteroid into the game world.
 	public void addNewAsteroid() {
-		asteroidExist++;
 		collection.add(new Asteroid(iG));		
 		System.out.println("An Asteroid has spawned");
 		notifyObv();
@@ -286,43 +298,35 @@ public class GameWorld extends Observable implements IGameWorld{
 	//=================================================================
 	// Assuming a Missile and asteroid exist in the game world and hit 
 	// each other, this will remove both of them from the world.
-	public void destroyAsteroid() {
+	public void destroyAsteroid(GameObject asteroid, GameObject missile) {
 		boolean flagA = false;
 		boolean flagM = false;
-		
-		if (asteroidExist <= 0 || missileExist <= 0) {
-			System.out.println("No asteroids/missile currently to be destroyed");
-		}
-		else {
-			missileExist--;
-			asteroidExist--;
 			points = points + 10;
-			
-			GameObject temp = new GameObject(iG);
 			GameVectorIterator coll = collection.getIterator();
 			while(coll.hasNext()) {
-				temp = coll.next();
-				if (!flagA && temp instanceof Asteroid) {
+				asteroid = coll.next();
+				if (!flagA && asteroid instanceof Asteroid) {
 					flagA = true;
-					collection.remove(temp);
+					collection.remove(asteroid);
 					coll = collection.getIterator();
 				}
-				if (!flagM && temp instanceof Missile) {
+			}
+			while(coll.hasNext()) {
+				if (!flagM && missile instanceof Missile) {
 					flagM = true;
-					collection.remove(temp);
+					collection.remove(missile);
 					coll = collection.getIterator();
 				}
 			}
 			notifyObv();
 			System.out.println("Direct hit to asteroid from missile!");
-		}
 	}
 	//=================================================================
 	// Assuming a Missile and Player ship exist in the game world and 
 	// hit each other, this will remove both of them from the world.
 	public void missileHitPShip() {
 		boolean flagM = false;
-		isDead();
+		//isDead();
 		
 		if(shipExist == false || missileExist <= 0) {
 			System.out.println("No player ship/missile currently to be destroyed");
@@ -345,34 +349,26 @@ public class GameWorld extends Observable implements IGameWorld{
 	//==================================================================
 	// Assuming a Player ship and asteroid exist in the game world and 
 	// hit each other, this will remove both of them from the world.
-	public void crash() {
+	public void crash(GameObject asteroid, GameObject ship) {
 		boolean flagA = false;
-		isDead();
-		
-		if(shipExist == false || asteroidExist <= 0) {
-			System.out.println("No player ship/Asteroid currently to be destroyed");
-		}
-		else {
-			asteroidExist--;
-			GameObject temp = new GameObject(iG);
-			GameVectorIterator coll = collection.getIterator();
-			while(coll.hasNext()) {
-				temp = coll.next();
-				if (!flagA && temp instanceof Asteroid){
-					flagA = true;
-					collection.remove(temp);
-				}
+		isDead(ship);
+		GameVectorIterator coll = collection.getIterator();
+		while(coll.hasNext()) {
+			if (!flagA && ship instanceof Asteroid){
+				flagA = true;
+				collection.remove(ship);
 			}
-			notifyObv();
-			System.out.println("You Died");
 		}
+		notifyObv();
+		System.out.println("You Died");
+		
 	}
 	//=================================================================
 	// Assuming a Non-Player Ship and Player Ship exist in the game world 
 	// and hit each other, this will remove both of them from the world.
 	public void hit() {
 		boolean flag = false;
-		isDead();
+		//isDead();
 		
 		if(shipExist == false || npShipExist <= 0) {
 			System.out.println("No player ship/Non-PlayerShip currently to be destroyed");
@@ -399,60 +395,24 @@ public class GameWorld extends Observable implements IGameWorld{
 	public void destroyTwoAsteroid(GameObject a, GameObject b) {
 		boolean flagA = false;
 		boolean flagAA = false;
-		
-		if (asteroidExist < 1) {
-			System.out.println("No asteroid currently to be destroyed");
-		}
-		else {
-			asteroidExist = asteroidExist - 2;
-			GameVectorIterator coll = collection.getIterator();
+		GameVectorIterator coll = collection.getIterator();
 			
-			while(coll.hasNext()) {
-				if (!flagA && a instanceof Asteroid) {
-					flagA = true;
-					collection.remove(a);
-					coll = collection.getIterator();
-				}
-				if (!flagAA && b instanceof Asteroid) {
-					flagAA = true;
-					collection.remove(b);
-					coll = collection.getIterator();
-				}
+		while(coll.hasNext() && !flagA) {
+			if (!flagA && a instanceof Asteroid) {
+				flagA = true;
+				collection.remove(a);
 			}
-			notifyObv();
 		}
-	}
-	//=================================================================
-	// Assuming a Non-Player Ship and an Asteroid exist in the game world 
-	// and hit each other, this will remove both of them from the world.
-	public void asteroidHitNPS() {
-		boolean flagA = false;
-		boolean flagnps = false;
-		
-		if (asteroidExist <= 0 || npShipExist <= 0) {
-			System.out.println("No asteroid/non-player ship currently to be destroyed");
-		}
-		else {
-			asteroidExist--;
-			npShipExist--;
-			GameObject temp = new GameObject(iG);
-			GameVectorIterator coll = collection.getIterator();
-			while(coll.hasNext()) {
-				temp = coll.next();
-				if (!flagA && temp instanceof Asteroid) {
-					flagA = true;
-					collection.remove(temp);
-					coll = collection.getIterator();
-				}
-				if (!flagnps && temp instanceof NonPlayerShip) {
-					flagnps = true;
-					collection.remove(temp);
-					coll = collection.getIterator();
-				}
+		coll = collection.getIterator();
+		while(coll.hasNext() && !flagAA) {
+			if (!flagAA && b instanceof Asteroid) {
+				flagAA = true;
+				collection.remove(b);
 			}
-			notifyObv();
 		}
+		notifyObv();
 	}
+	
 	//=================================================================
 	// This will increase the in-game clock by one and tells every movable object
 	// to move. Space Stations will also blink according to the game's time as well.
@@ -492,28 +452,33 @@ public class GameWorld extends Observable implements IGameWorld{
 				}
 			}
 		}
+		
 		coll = collection.getIterator();
 		while(coll.hasNext()) {	// Move every movable object in the game world.
 			temp = coll.next();
-			coll2 = collection.getIterator();
-			
-			while(coll2.hasNext()) {
-				ICollider otherObj = (ICollider) coll2.next();
-				if(otherObj!=temp) {
-					if(temp.collideWith(otherObj)) {
-						temp.handleCollision(otherObj);
-					}
-				}
-			}
 			if( temp instanceof IMoveable) {
 				((IMoveable) temp).move();
 			}
-			notifyObv();	
+		}
+		notifyObv();
+		
+		coll = collection.getIterator();
+		while(coll.hasNext()) {
+			temp = coll.next();
+			coll2 = collection.getIterator();
+			while(coll2.hasNext()) {
+				ICollider otherObj = (ICollider) coll2.next();
+				if(otherObj != temp) {
+					if(temp.collideWith(otherObj)) {
+						temp.handleCollision(otherObj);
+						coll2 = collection.getIterator();
+					}
+				}
+			}
 		}
 		notifyObv();
 	}
 	//=================================================================
-
 	// This will display the details of all objects in the game world.
 	public void map() {
 		
@@ -593,8 +558,13 @@ public class GameWorld extends Observable implements IGameWorld{
 		return this.collection;
 	}
 	
-	public void setAsteroidCollide(GameObject a, GameObject b) {
-		this.destroyTwoAsteroid(a, b);
+	//==========================================================================
+	// Collision Methods
+	
+	public void setIsDead(GameObject ship) {
+		this.isDead(ship);
 	}
+	
+	
 	
 }

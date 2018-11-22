@@ -12,7 +12,7 @@ public class asteroidHitNps extends Command {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.asteroidHitNPS();
+		//gw.asteroidHitNPS();
 	}
 	
 }

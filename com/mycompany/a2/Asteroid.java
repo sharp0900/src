@@ -1,6 +1,5 @@
 package com.mycompany.a2;
 import java.util.Random;
-
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
@@ -101,16 +100,19 @@ public class Asteroid extends MoveableGameObject implements ISelectable,IDrawabl
 
 	
 	public void handleCollision(ICollider gameObject) {
-		System.out.println("Two Astroids have crashed: ");
 		GameObject go = (GameObject) gameObject;
-		GameObject asteroid = this;
 		
-		if(go instanceof Asteroid) {
-			gwp.setAsteroidCollide(asteroid, go);
+		if (gwp.getExist(go)) {
+			if(go instanceof PlayerShip) {
+				gwp.setIsDead(go);
+			} 
+			else {
+				gwp.getCollection().remove(go);
+			}
+		} 
+		
+		if (gwp.getExist(this)) {
+			gwp.getCollection().remove(this);
 		}
-		
-		
 	}
-	
-	
 }
