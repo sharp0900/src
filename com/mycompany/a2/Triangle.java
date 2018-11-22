@@ -1,7 +1,6 @@
 package com.mycompany.a2;
 
 
-import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.Transform;
 import com.codename1.ui.geom.Point;

@@ -2,11 +2,9 @@ package com.mycompany.a2;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Container;
 import com.codename1.ui.Label;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.plaf.Border;
 
 public class PointsView extends Container implements Observer {
 
@@ -35,7 +33,6 @@ public class PointsView extends Container implements Observer {
 		
 		Container contain = new Container();
 		contain.setLayout(new BoxLayout(BoxLayout.X_AXIS));
-		//contain.getAllStyles().setBorder(Border.createLineBorder(4, ColorUtil.BLUE));
 		
 		contain.add(pointsText);
 		contain.add(pointsValueText);

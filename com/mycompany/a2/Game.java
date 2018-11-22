@@ -1,20 +1,14 @@
 package com.mycompany.a2;
 
-import java.util.Timer;
-
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
-import com.codename1.ui.Command;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
 import com.codename1.ui.Form;
-import com.codename1.ui.Image;
 import com.codename1.ui.Label;
 import com.codename1.ui.Toolbar;
-import com.codename1.ui.animations.Timeline;
 import com.codename1.ui.layouts.BorderLayout;
-import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.layouts.GridLayout;
 import com.codename1.ui.plaf.Border;
 import com.codename1.ui.util.UITimer;
@@ -27,6 +21,7 @@ public class Game extends Form implements Runnable{
 	private PointsView pv;
 	private Container leftContainer;
 	private UITimer timer;
+	private missleRefillCommand refillMissile;
 	private int tick;
 	
 	public Game() {
@@ -37,9 +32,9 @@ public class Game extends Form implements Runnable{
 		gw.addObserver(pv);			// register the points observer
 
 		//=================================================================================
-		tick = 20;
+		tick = 1;
 		timer = new UITimer(this);
-		timer.schedule(tick, false, this);
+		timer.schedule(tick, true, this);
 		
 		//=================================================================================
 		//Creating layout and side menus
@@ -70,10 +65,6 @@ public class Game extends Form implements Runnable{
 		firePSMissile.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
 		firePSMissile.getAllStyles().setBgTransparency(255);
 		
-		Button launchNPCMissle = new Button();
-		launchNPCMissle.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		launchNPCMissle.getAllStyles().setBgTransparency(255);
-		
 		Button jump = new Button();
 		jump.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
 		jump.getAllStyles().setBgTransparency(255);
@@ -90,41 +81,17 @@ public class Game extends Form implements Runnable{
 		moveLauncherRight.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
 		moveLauncherRight.getAllStyles().setBgTransparency(255);
 		
-		Button missileHitAsteroid = new Button();
-		missileHitAsteroid.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		missileHitAsteroid.getAllStyles().setBgTransparency(255);
-		
-		Button missileHitNps = new Button();
-		missileHitNps.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		missileHitNps.getAllStyles().setBgTransparency(255);
-		
-		Button missileHitPs = new Button();
-		missileHitPs.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		missileHitPs.getAllStyles().setBgTransparency(255);
-		
-		Button asteroidHitPs = new Button();
-		asteroidHitPs.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		asteroidHitPs.getAllStyles().setBgTransparency(255);
-		
-		Button asteroidHitNps = new Button();
-		asteroidHitNps.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		asteroidHitNps.getAllStyles().setBgTransparency(255);
-		
-		Button npsHitPs = new Button();
-		npsHitPs.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		npsHitPs.getAllStyles().setBgTransparency(255);
-		
-		Button asteroidHitAsteroid = new Button();
-		asteroidHitAsteroid.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		asteroidHitAsteroid.getAllStyles().setBgTransparency(255);
-		
-		Button npsHitAsteroid = new Button();
-		npsHitAsteroid.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		npsHitAsteroid.getAllStyles().setBgTransparency(255);
-		
 		Button station = new Button();
 		station.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
 		station.getAllStyles().setBgTransparency(255);
+		
+		Button play = new Button();
+		play.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
+		play.getAllStyles().setBgTransparency(255);
+		
+		Button pause = new Button();
+		pause.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
+		pause.getAllStyles().setBgTransparency(255);
 		
 		Button tick = new Button();
 		tick.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
@@ -185,18 +152,20 @@ public class Game extends Form implements Runnable{
 		firePSMissile.setCommand(fireMissile);
 		addKeyListener(-90, fireMissile);
 		
-		fireNPCMissleCommand fireNPCMissile = new fireNPCMissleCommand(gw);
-		launchNPCMissle.setCommand(fireNPCMissile);
-		addKeyListener('l', fireNPCMissile);
-		
 		hyperSpaceCommand hyperSpace = new hyperSpaceCommand(gw);
 		jump.setCommand(hyperSpace);
 		addKeyListener('j', hyperSpace);
 		
-		tickCommand tickTock = new tickCommand(this);
+		runCommand tickTock = new runCommand(this);
 		tick.setCommand(tickTock);
 		addKeyListener('t', tickTock);
 		toolBar.addCommandToLeftSideMenu(tickTock);
+		
+		pauseCommand pauseCommand = new pauseCommand(this);
+		pause.setCommand(pauseCommand);
+		
+		playCommand playCommand = new playCommand(this);
+		play.setCommand(playCommand);
 		
 		exitCommand exitGame = new exitCommand(gw);
 		exit.setCommand(exitGame);
@@ -204,39 +173,13 @@ public class Game extends Form implements Runnable{
 		toolBar.addCommandToLeftSideMenu(exitGame);
 		toolBar.addCommandToOverflowMenu(exitGame);
 		
-		missleRefillCommand refillMissile = new missleRefillCommand(gw);
+		refillMissile = new missleRefillCommand(gw);
 		refill.setCommand(refillMissile);
 		addKeyListener('n', refillMissile);
 		toolBar.addCommandToLeftSideMenu(refillMissile);
 		
-		asteroidHitNps asteroidHitNpsCommand = new asteroidHitNps(gw);
-		npsHitAsteroid.setCommand(asteroidHitNpsCommand);
-		addKeyListener('h', asteroidHitNpsCommand);
-		
-		asteroidHitPs asteroidhitPsCommand = new asteroidHitPs(gw);
-		asteroidHitPs.setCommand(asteroidhitPsCommand);
-		addKeyListener('o', asteroidhitPsCommand);
-		toolBar.addCommandToLeftSideMenu(asteroidhitPsCommand);
-		
-		astHitAstCommand astHitast = new astHitAstCommand(gw);
-		asteroidHitAsteroid.setCommand(astHitast);
-		toolBar.addCommandToLeftSideMenu(astHitast);
-		
-		missHitAsCommand missileHitAs = new missHitAsCommand(gw);
-		missileHitAsteroid.setCommand(missileHitAs);
-		toolBar.addCommandToLeftSideMenu(missileHitAs);
-		
-		missHitNpsCommand missileNpsHit = new missHitNpsCommand(gw);
-		missileHitNps.setCommand(missileNpsHit);
-		
-		missHitPs missileHitPlayer = new missHitPs(gw);
-		missileHitPs.setCommand(missileHitPlayer);
-		
 		moveLauncherLeftCommand movelauncherleft = new moveLauncherLeftCommand(gw);
 		moveLauncherLeft.setCommand(movelauncherleft);
-		
-		npsHitpsCommand npsHitps = new npsHitpsCommand(gw);
-		npsHitPs.setCommand(npsHitps);
 		
 		speedDownCommand speedDown = new speedDownCommand(gw);
 		addKeyListener(-92,speedDown);
@@ -269,17 +212,11 @@ public class Game extends Form implements Runnable{
 		leftContainer.add(addNonPlayerShip);
 		leftContainer.add(station);
 		leftContainer.add(firePSMissile);
-		leftContainer.add(launchNPCMissle);
 		leftContainer.add(jump);
 		leftContainer.add(refill);
-		leftContainer.add(asteroidHitPs);
-		leftContainer.add(asteroidHitAsteroid);
-		leftContainer.add(missileHitAsteroid);
-		leftContainer.add(missileHitNps);
-		leftContainer.add(missileHitPs);
-		leftContainer.add(npsHitPs);
-		leftContainer.add(npsHitAsteroid);
-		leftContainer.add(tick);
+		//leftContainer.add(tick);
+		leftContainer.add(play);
+		leftContainer.add(pause);
 		leftContainer.add(exit);
 		add(BorderLayout.WEST,leftContainer);
 		this.show();
@@ -290,9 +227,8 @@ public class Game extends Form implements Runnable{
 	}
 	
 	public void run() {
-		
+		disableButtons();
 		gw.tickTock(tick);
-		
 	}
 	
 	public void pause() {
@@ -308,11 +244,11 @@ public class Game extends Form implements Runnable{
 	}
 	
 	private void disableButtons() {
-		
+		refillMissile.setEnabled(false);
 	}
 	
 	private void enableButtons() {
-		
+		refillMissile.setEnabled(true);
 	}
 	
 }

@@ -13,7 +13,7 @@ public class moveLauncherLeftCommand extends Command{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.rotateLauncher();
+		//gw.rotateLauncher();
 	}
 	
 

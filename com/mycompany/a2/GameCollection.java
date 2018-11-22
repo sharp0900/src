@@ -26,7 +26,7 @@ public class GameCollection implements ICollection {
 		//this.getIterator().remove();
 	}
 	
-	public class GameVectorIterator implements Iterator {
+	public class GameVectorIterator implements Iterator<Object> {
 
 		private int currElementIndex;
 		

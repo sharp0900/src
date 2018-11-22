@@ -13,7 +13,7 @@ public class Asteroid extends MoveableGameObject implements ISelectable,IDrawabl
 	public Asteroid(GameWorldProxy gw) {
 		super(gw);
 		gwp = gw;
-		this.size = 60 + new Random().nextInt(240);
+		this.size = 50 + new Random().nextInt(150);
 		super.setSize(this.size);
 	}
 	

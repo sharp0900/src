@@ -81,15 +81,15 @@ public class PlayerShip extends Ship implements ISteerable,IDrawable{
 	}
 	
 	public void speedUp() {
-		if(this.getSpeed() < 60 ) {
-			this.setSpeed(getSpeed() + 5);
+		if(this.getSpeed() < 10 ) {
+			this.setSpeed(getSpeed() + 1);
 			this.shipLauncher.setSpeed(this.getSpeed());
 		}
 	}
 	
 	public void speedDown() {
 		if(this.getSpeed() > 0) {
-			this.setSpeed(getSpeed() - 5);
+			this.setSpeed(getSpeed() - 1);
 			this.shipLauncher.setSpeed(this.getSpeed());
 		}
 	}

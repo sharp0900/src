@@ -1,6 +1,5 @@
 package com.mycompany.a2;
 import java.util.Observable;
-import java.util.Random;
 import com.mycompany.a2.GameCollection.GameVectorIterator;
 
 public class GameWorld extends Observable implements IGameWorld{
