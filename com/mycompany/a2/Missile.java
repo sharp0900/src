@@ -18,8 +18,8 @@ public class Missile extends MoveableGameObject implements ISelectable,IDrawable
 		super(gw);
 		this.gwp = gw;
 		tri = new Triangle(50,50, ColorUtil.rgb(255,0,0));
-		this.FuelLevel = 10;
-		this.setSpeed(500);
+		this.FuelLevel = 350;
+		this.setSpeed(10);
 	}
 	
 	public void move(int tick) {

@@ -50,11 +50,11 @@ public class Triangle{
 	}
 	
 	public void translate (float tx, float ty) {
-		myTranslation.translate(tx, ty);
+		myTranslation.translate(-tx, -ty);
 	}
 	
 	public void scale(float sx, float sy) {
-		myScale.scale(sx, sy);
+		myScale.scale(-sx, -sy);
 	}
 	
 	public void rotate(float degrees) {

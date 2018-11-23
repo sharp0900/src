@@ -240,7 +240,7 @@ public class GameWorld extends Observable implements IGameWorld{
 	//=================================================================
 	// This will fire a missile from player ship.
 	public void fireMissile() {
-		if (shipExist) {
+		if (shipExist && this.getMissileCount() > 0) {
 			missileExist++;
 			Missile missile = new Missile(iG);
 			missile.setLocation(shipPlayer().getLocation().getX(), shipPlayer().getLocation().getY());

@@ -49,7 +49,7 @@ public class PlayerShip extends Ship implements ISteerable,IDrawable{
 	}
 	
 	public void refillMissile() {
-		this.setMissileCount(10);
+		this.setMissileCount(350);
 	}
 	
 	public void ShootMissile(){
