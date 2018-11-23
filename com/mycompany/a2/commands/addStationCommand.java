@@ -14,7 +14,9 @@ public class addStationCommand extends Command {
 	
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.addNewStation();
+		if (e.getKeyEvent() != -1) {
+			gw.addNewStation();
+		}
 	}
 	
 	

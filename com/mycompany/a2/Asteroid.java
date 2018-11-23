@@ -21,9 +21,9 @@ public class Asteroid extends MoveableGameObject implements ISelectable,IDrawabl
 		// This will move and animate the object to where it needs to be
 		// when the tick button is pressed.
 		double oldLocationX = this.getLocation().getX();
-		double deltaX = (Math.cos(90 - this.getHeading()) * this.getSpeed() * tick);
+		double deltaX = (Math.cos(90 - this.getHeading()) * this.getSpeed() * tick/10);
 		double oldLocationY = this.getLocation().getY();
-		double deltaY = (Math.sin(90 - this.getHeading()) * this.getSpeed() * tick);
+		double deltaY = (Math.sin(90 - this.getHeading()) * this.getSpeed() * tick/10);
 		this.setLocation(oldLocationX + deltaX, oldLocationY + deltaY);
 		
 		// This will cause the object to show up on the opposite side of the map
@@ -101,18 +101,6 @@ public class Asteroid extends MoveableGameObject implements ISelectable,IDrawabl
 	
 	public void handleCollision(ICollider gameObject) {
 		GameObject go = (GameObject) gameObject;
-		
-		if (gwp.getExist(go)) {
-			if(go instanceof PlayerShip) {
-				gwp.setIsDead(go);
-			} 
-			else {
-				gwp.getCollection().remove(go);
-			}
-		} 
-		
-		if (gwp.getExist(this)) {
-			gwp.getCollection().remove(this);
-		}
+		gwp.setCollision(this, go);
 	}
 }

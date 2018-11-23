@@ -15,7 +15,7 @@ public class speedDownCommand extends Command{
 	
 	public void actionPerformed(ActionEvent e) {
 		
-		gw.speedUp();
+		gw.speedDown();
 	}
 	
 }

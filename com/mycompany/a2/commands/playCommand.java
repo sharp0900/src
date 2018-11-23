@@ -13,7 +13,9 @@ public class playCommand extends Command{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.play();
+		if (e.getKeyEvent() != -1) {
+			gw.play();
+		}
 	}
 	
 }

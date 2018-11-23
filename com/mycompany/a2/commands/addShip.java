@@ -14,7 +14,9 @@ public class addShip extends Command {
 	
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.addPShip();
+		if (e.getKeyEvent() != -1) {
+			gw.addPShip();
+		}
 	}
 	
 	

@@ -74,19 +74,6 @@ public class SpaceStation extends FixGameObject implements IDrawable{
 	
 	public void handleCollision(ICollider gameObject) {
 		GameObject go = (GameObject) gameObject;
-		
-		if (gwp.getExist(go)) {
-			if(go instanceof PlayerShip) {
-				gwp.setIsDead(go);
-			} 
-			else {
-				gwp.getCollection().remove(go);
-			}
-		} 
-		
-		if (gwp.getExist(this)) {
-			gwp.getCollection().remove(this);
-		}
+		gwp.setCollision(this, go);
 	}
-	
 }

@@ -43,6 +43,10 @@ public class GameWorldProxy extends Observable implements IGameWorld {
 		return gw.getCollection();
 	}
 	
+	public void setCollision(GameObject currObj, GameObject collideObj) {
+		gw.setCollision(currObj, collideObj);
+	}
+	
 	public int getMapX() {
 		return gw.getMapX();
 	}
@@ -63,6 +67,4 @@ public class GameWorldProxy extends Observable implements IGameWorld {
 		 gw.setIsDead(ship);
 	}
 	
-	//================================================================
-	// collision handling methods
 }

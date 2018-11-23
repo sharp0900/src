@@ -1,5 +1,8 @@
 package com.mycompany.a2;
 import java.util.Observable;
+
+import com.codename1.ui.Dialog;
+import com.codename1.ui.Display;
 import com.mycompany.a2.GameCollection.GameVectorIterator;
 
 public class GameWorld extends Observable implements IGameWorld{
@@ -20,20 +23,21 @@ public class GameWorld extends Observable implements IGameWorld{
 
 	
 	public GameWorld() {
-		collection = new GameCollection();
-		iG = new GameWorldProxy(this);
 		this.init();
 	}
 	
 	//=================================================================
 	// This will initialize the Game's info and points/scores
 	public void init() {
+		collection = new GameCollection();
+		iG = new GameWorldProxy(this);
 		shipExist = false;
 		shipLife = 3;
 		npShipExist = 0;
 		ssExist = 0;
 		missileExist = 0;
 		points = 0;
+		gameTime = 0;
 		pause = false;
 		this.notifyObv();
 	}
@@ -78,13 +82,19 @@ public class GameWorld extends Observable implements IGameWorld{
 			if (shipLife > 0) {
 				shipLife--;
 				this.jump();
+				this.fillMissile();
 				notifyObv();
 			}
 			else if (shipLife == 0){
 				shipExist = false;
-				collection.remove(ship);
-				notifyObv();
+				Boolean bOk = Dialog.show("Game Over!?", "Start a new game?", "Sure!", "Nah, I got better things to do...");
+				if (bOk){
+					newGame();
+					}
+				else {
+					Display.getInstance().exitApplication();
 				}
+			}
 		}
 	}
 	
@@ -360,6 +370,15 @@ public class GameWorld extends Observable implements IGameWorld{
 		notifyObv();
 	}
 	
+	
+	public void newGame() {
+		while(collection.getIterator().hasNext()) {
+			collection.remove(collection.getIterator().next());
+			notifyObv();
+		}
+		this.init();
+	}
+	
 	//=================================================================
 	// Map width/height setters
 	public void setWidthHeight(int width, int height) {
@@ -415,11 +434,37 @@ public class GameWorld extends Observable implements IGameWorld{
 		return this.collection;
 	}
 	
+	
 	//==========================================================================
 	// Collision Methods
 	
 	public void setIsDead(GameObject ship) {
 		this.isDead(ship);
+	}
+	
+	public void setCollision(GameObject currObj, GameObject collideObj) {
+
+		if (this.collectionExist(collideObj)) {
+			if (collideObj instanceof PlayerShip) {
+				this.setIsDead(collideObj);
+			} else {
+				if ((currObj instanceof Missile || collideObj instanceof Missile) && (!(currObj instanceof PlayerShip) && !(collideObj instanceof PlayerShip))) {
+					this.points = this.points + 10;
+				}
+				collection.remove(collideObj);
+				notifyObv();
+			}
+		}
+
+		if (this.collectionExist(currObj)) {
+			if (currObj instanceof PlayerShip) {
+				this.setIsDead(collideObj);
+			} else {
+			collection.remove(currObj);
+			notifyObv();
+			}
+		}
+		
 	}
 
 

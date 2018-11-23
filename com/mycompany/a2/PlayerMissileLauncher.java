@@ -5,14 +5,13 @@ public class PlayerMissileLauncher extends MissileLauncher implements ISteerable
 
 	public PlayerMissileLauncher(GameWorldProxy gw) {
 		super(gw);
-		// TODO Auto-generated constructor stub
 	}
 
-	public void move() {
+	public void move(int tick) {
 		double oldLocationX = this.getLocation().getX();
-		double deltaX = (Math.cos(90 - this.getHeading()) * this.getSpeed());
+		double deltaX = (Math.cos(Math.toRadians(90 - this.getHeading()))) * this.getSpeed() * tick;
 		double oldLocationY = this.getLocation().getY();
-		double deltaY = (Math.sin(90 - this.getHeading()) * this.getSpeed());
+		double deltaY = (Math.sin(Math.toRadians(90 - this.getHeading()))) * this.getSpeed() * tick;
 		this.setLocation(oldLocationX + deltaX, oldLocationY + deltaY);
 	}
 	

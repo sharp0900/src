@@ -13,7 +13,9 @@ public class hyperSpaceCommand extends Command{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.jump();
+		if (e.getKeyEvent() != -1) {
+			gw.jump();
+		}
 	}
 	
 }

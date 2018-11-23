@@ -211,10 +211,8 @@ public class Game extends Form implements Runnable{
 		leftContainer.add(addAsteroidButton);
 		leftContainer.add(addNonPlayerShip);
 		leftContainer.add(station);
-		leftContainer.add(firePSMissile);
 		leftContainer.add(jump);
 		leftContainer.add(refill);
-		//leftContainer.add(tick);
 		leftContainer.add(play);
 		leftContainer.add(pause);
 		leftContainer.add(exit);

@@ -8,8 +8,8 @@ public class PlayerShip extends Ship implements ISteerable,IDrawable{
 	private GameWorldProxy gwp;
 	private PlayerMissileLauncher shipLauncher;
 	private Triangle tri;
-	private int sizeH = 200;
-	private int sizeB = 200;
+	private int sizeH = 100;
+	private int sizeB = 100;
 	
 	PlayerShip(GameWorldProxy gw){
 		super(gw);
@@ -21,17 +21,18 @@ public class PlayerShip extends Ship implements ISteerable,IDrawable{
 						 gw.getMapY()+ gw.getMapHeight()/2);
 		this.shipLauncher.setSpeed(this.getSpeed());
 		this.shipLauncher.setHeading(this.getHeading());
-		this.shipLauncher.setLocation(gw.getMapX()+ gw.getMapWidth()/2 + sizeB,
-				 					  gw.getMapY()+ gw.getMapHeight()/2 + sizeH);
+		this.shipLauncher.setLocation(gw.getMapX()+ gw.getMapWidth()/2 + sizeB*2,
+				 					  gw.getMapY()+ gw.getMapHeight()/2 + sizeH*2);
 		
 		this.tri = new Triangle(sizeB, sizeH, ColorUtil.argb(60,255,0,255));
 	}
 	
 	public void move(int tick) {
+		int newSpeed = (this.getSpeed() * tick);
 		double oldLocationX = this.getLocation().getX();
-		double deltaX = ((float)(Math.cos(90 - this.getHeading()) * (this.getSpeed() * tick)));
+		double deltaX = (Math.cos(Math.toRadians(90 - this.getHeading())) * newSpeed );
 		double oldLocationY = this.getLocation().getY();
-		double deltaY = ((float)(Math.sin(90 - this.getHeading())) * (this.getSpeed() * tick));
+		double deltaY = (Math.sin(Math.toRadians(90 - this.getHeading())) * newSpeed);
 		this.setLocation(oldLocationX + deltaX, oldLocationY + deltaY);
 		
 		// This will cause the object to show up on the opposite side of the map
@@ -49,7 +50,7 @@ public class PlayerShip extends Ship implements ISteerable,IDrawable{
 	}
 	
 	public void refillMissile() {
-		this.setMissileCount(350);
+		this.setMissileCount(10);
 	}
 	
 	public void ShootMissile(){
@@ -135,13 +136,7 @@ public class PlayerShip extends Ship implements ISteerable,IDrawable{
 	
 	public void handleCollision(ICollider gameObject) {
 		GameObject go = (GameObject) gameObject;
-		
-		if (gwp.getExist(go)) {
-			gwp.getCollection().remove(go);
-		}
-		if (gwp.getExist(this)) {
-			gwp.setIsDead(this);
-		}
+		gwp.setCollision(this, go);
 	}
 
 	

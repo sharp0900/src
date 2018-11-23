@@ -14,7 +14,10 @@ public class addAsteroidCommand extends Command{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
+		
+		if (e.getKeyEvent() != -1) {
 		gw.addNewAsteroid();
+		}
 	}
 	
 }

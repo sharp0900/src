@@ -15,10 +15,12 @@ public class exitCommand extends Command {
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		Boolean bOk = Dialog.show("Confirm quit", "Are you sure you want to quit?", "Ok", "Cancel");
-		if (bOk){
-				Display.getInstance().exitApplication();
-			}
+		if (e.getKeyEvent() != -1) {
+			Boolean bOk = Dialog.show("Confirm quit", "Are you sure you want to quit?", "Ok", "Cancel");
+			if (bOk){
+					Display.getInstance().exitApplication();
+				}
+		}
 	}
 	
 }

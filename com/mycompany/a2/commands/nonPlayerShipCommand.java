@@ -14,7 +14,10 @@ public class nonPlayerShipCommand extends Command{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.addNPShip();
+		
+		if (e.getKeyEvent() != -1) {
+			gw.addNPShip();
+		}
 	}
 	
 }

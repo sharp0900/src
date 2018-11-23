@@ -13,6 +13,8 @@ public class pauseCommand extends Command{
 	}
 	
 	public void actionPerformed(ActionEvent e) {
-		gw.pause();
+		if (e.getKeyEvent() != -1) {
+			gw.pause();
+		}
 	}
 }
