@@ -247,6 +247,19 @@ public class GameWorld extends Observable implements IGameWorld{
 		}
 	}
 	
+	public void refillMissileFuel() {
+		GameVectorIterator coll = collection.getIterator();
+		while(coll.hasNext()) {
+			GameObject temp = coll.next();
+			if (temp instanceof ISelectable && temp instanceof Missile) {
+				if (((ISelectable) temp).isSelected()) {
+					((Missile)temp).setFuelLevel(350);
+					System.out.print("REFUEELD AND READY TO BLOW");
+				}
+			}
+		}
+	}
+	
 	//=================================================================
 	// This will fire a missile from player ship.
 	public void fireMissile() {
@@ -296,7 +309,7 @@ public class GameWorld extends Observable implements IGameWorld{
 				temp = coll.next();
 				if (temp instanceof Missile){
 					if (((Missile) temp).getFuelLevel() > 0) {
-						((Missile) temp).setFuelLevel();
+						((Missile) temp).setFuelLevel(((Missile)temp).getFuelLevel() - 1);
 					}
 					else {
 						 collection.remove(temp);
@@ -359,6 +372,11 @@ public class GameWorld extends Observable implements IGameWorld{
 	
 	//=================================================================
 	// Enable/Disable Sound
+	
+	public void bgSound(String fileName) {
+		
+	}
+	
 	public void soundOnOff(){
 	
 		if (soundOn) {
@@ -393,6 +411,10 @@ public class GameWorld extends Observable implements IGameWorld{
 	
 	//=================================================================
 	//Proxy get methods
+	
+	public boolean getPaused() {
+		return this.pause;
+	}
 	
 	public int getMapX() {
 		return mapX;

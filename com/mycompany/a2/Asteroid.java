@@ -8,13 +8,17 @@ import com.codename1.ui.geom.Point;
 public class Asteroid extends MoveableGameObject implements ISelectable,IDrawable,ICollider{
 
 	private int size;
+	private int color;
+	private boolean selected;
 	private GameWorldProxy gwp;
 	
 	public Asteroid(GameWorldProxy gw) {
 		super(gw);
 		gwp = gw;
 		this.size = 50 + new Random().nextInt(150);
+		selected = false;
 		super.setSize(this.size);
+		this.color = (ColorUtil.argb(100,200,50,100));
 	}
 	
 	public void move(int tick) {
@@ -40,6 +44,10 @@ public class Asteroid extends MoveableGameObject implements ISelectable,IDrawabl
 		}
 	}
 	
+	private void setColor(int a, int r, int g, int b) {
+		this.color = ColorUtil.argb(a,r,g,b);
+	}
+	
 	public String toString() {
 		String text = ("Asteroid: " + 
 					  " Location: " + this.getLocation() +
@@ -53,28 +61,41 @@ public class Asteroid extends MoveableGameObject implements ISelectable,IDrawabl
 
 	@Override
 	public void setSelected(boolean yesNo) {
-		// TODO Auto-generated method stub
+		selected = yesNo;
 		
 	}
 
 	@Override
 	public boolean isSelected() {
-		// TODO Auto-generated method stub
-		return false;
+		return selected;
 	}
 
 	@Override
 	public boolean contains(Point pPtrRelPrnt, Point pCmpRelPrnt) {
 		
-		return false;
+		boolean temp = false;
+		int ptrX = pPtrRelPrnt.getX();
+		int ptrY = pPtrRelPrnt.getY();
+		int locX = (int) this.getLocation().getX();
+		int locY = (int) this.getLocation().getY();
+		
+		if((ptrX <= (locX + this.size)) && (ptrX >= locX) &&
+		   (ptrY <= (locY + this.size)) && (ptrY >= locY)){
+			temp = true;
+			this.setColor(255, 255, 255, 255);
+		}else {
+			this.color = (ColorUtil.argb(100,200,50,100));
+		}
+		
+		return temp;
 	}
 
 	@Override
 	public void draw(Graphics g, Point pCmpRelPrnt) {
-		g.setColor(ColorUtil.argb(100,200,50,100));
+		g.setColor(color);
 		g.fillRoundRect((int)this.getLocation().getX(), 
 				  		(int)this.getLocation().getY(), 
-				  		this.size, this.size, 120, 360);
+				  		this.size, this.size, 360, 360);
 		
 	}
 	

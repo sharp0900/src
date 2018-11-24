@@ -9,6 +9,11 @@ public class GameWorldProxy extends Observable implements IGameWorld {
 		this.gw = gw;
 	}
 	
+	
+	public boolean getPaused() {
+		return gw.getPaused();
+	}
+	
 	public boolean getExist(GameObject obj) {
 		return gw.collectionExist(obj);
 	}

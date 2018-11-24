@@ -1,5 +1,7 @@
 package com.mycompany.a2;
 
+import java.util.Random;
+
 import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Button;
 import com.codename1.ui.CheckBox;
@@ -23,6 +25,8 @@ public class Game extends Form implements Runnable{
 	private UITimer timer;
 	private missleRefillCommand refillMissile;
 	private int tick;
+	private int min;
+	private int max;
 	
 	public Game() {
 		gw = new GameWorld();		// create Observable
@@ -32,6 +36,8 @@ public class Game extends Form implements Runnable{
 		gw.addObserver(pv);			// register the points observer
 
 		//=================================================================================
+		min = 0;
+		max = 400;
 		tick = 1;
 		timer = new UITimer(this);
 		timer.schedule(tick, true, this);
@@ -72,6 +78,10 @@ public class Game extends Form implements Runnable{
 		Button refill = new Button();
 		refill.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
 		refill.getAllStyles().setBgTransparency(255);
+		
+		Button reFuel = new Button();
+		reFuel.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
+		reFuel.getAllStyles().setBgTransparency(255);
 		
 		Button moveLauncherLeft = new Button();
 		moveLauncherLeft.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
@@ -178,6 +188,9 @@ public class Game extends Form implements Runnable{
 		addKeyListener('n', refillMissile);
 		toolBar.addCommandToLeftSideMenu(refillMissile);
 		
+		MissileRecharge MissileRecharge = new MissileRecharge(gw);
+		reFuel.setCommand(MissileRecharge);
+		
 		moveLauncherLeftCommand movelauncherleft = new moveLauncherLeftCommand(gw);
 		moveLauncherLeft.setCommand(movelauncherleft);
 		
@@ -213,6 +226,7 @@ public class Game extends Form implements Runnable{
 		leftContainer.add(station);
 		leftContainer.add(jump);
 		leftContainer.add(refill);
+		leftContainer.add(reFuel);
 		leftContainer.add(play);
 		leftContainer.add(pause);
 		leftContainer.add(exit);
@@ -226,6 +240,10 @@ public class Game extends Form implements Runnable{
 	
 	public void run() {
 		disableButtons();
+		int roll = Game.genRandInt(min, max);
+		if(roll >= 89 && roll<= 90 ) {
+			gw.addNPShip();
+		}
 		gw.tickTock(tick);
 	}
 	
@@ -243,10 +261,19 @@ public class Game extends Form implements Runnable{
 	
 	private void disableButtons() {
 		refillMissile.setEnabled(false);
+		
+		this.getDisabledStyle().setBgColor(ColorUtil.BLACK);
 	}
 	
 	private void enableButtons() {
 		refillMissile.setEnabled(true);
+		this.getDisabledStyle().setBgColor(ColorUtil.WHITE);
+	}
+	
+	private static int genRandInt(int min, int max) {
+		Random r = new Random();
+		int x =r.nextInt((max - min) + 1) + min;
+		return x;
 	}
 	
 }

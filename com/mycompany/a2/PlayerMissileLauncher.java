@@ -1,6 +1,10 @@
 package com.mycompany.a2;
 
-public class PlayerMissileLauncher extends MissileLauncher implements ISteerable{
+import com.codename1.charts.util.ColorUtil;
+import com.codename1.ui.Graphics;
+import com.codename1.ui.geom.Point;
+
+public class PlayerMissileLauncher extends MissileLauncher implements ISteerable,IDrawable{
 	
 
 	public PlayerMissileLauncher(GameWorldProxy gw) {
@@ -33,6 +37,14 @@ public class PlayerMissileLauncher extends MissileLauncher implements ISteerable
 		if(this.getSpeed() > 0) {
 			this.setSpeed(getSpeed() - 1);
 		}
+	}
+	
+	public void draw(Graphics g, Point pCmpRelPrnt) {
+		g.setColor(ColorUtil.argb(200,255,255,255));
+		g.fillRect((int)this.getLocation().getX(),
+				   (int)this.getLocation().getY(), 
+				   200, 200);
+		
 	}
 	
 }

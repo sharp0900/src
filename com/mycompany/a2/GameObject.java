@@ -54,4 +54,13 @@ public class GameObject extends GameCollection implements ICollider{
 	public void handleCollision(ICollider gameObject) {
 		
 	}
+
+	public void setSelected(boolean b) {
+		
+	}
+
+	public boolean contains(Point pPtrRelPrnt, Point pCmpRelPrnt) {
+		return false;
+	}
+
 }

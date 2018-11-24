@@ -21,8 +21,8 @@ public class PlayerShip extends Ship implements ISteerable,IDrawable{
 						 gw.getMapY()+ gw.getMapHeight()/2);
 		this.shipLauncher.setSpeed(this.getSpeed());
 		this.shipLauncher.setHeading(this.getHeading());
-		this.shipLauncher.setLocation(gw.getMapX()+ gw.getMapWidth()/2 + sizeB*2,
-				 					  gw.getMapY()+ gw.getMapHeight()/2 + sizeH*2);
+		this.shipLauncher.setLocation(gw.getMapX()+ gw.getMapWidth()/2,
+				 					  gw.getMapY()+ gw.getMapHeight()/2);
 		
 		this.tri = new Triangle(sizeB, sizeH, ColorUtil.argb(60,255,0,255));
 	}

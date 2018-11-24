@@ -36,7 +36,28 @@ public class MapView extends Container implements Observer{
 		while (vector.hasNext()) {
 			vector.next().draw(g, new Point (getX(), getY()));
 		}
+	}
+	
+	@Override
+	public void pointerPressed(int x, int y) {
+		GameVectorIterator vector = gw1.getCollection().getIterator();	
+		x = x - getParent().getAbsoluteX();
+		y = y - getParent().getAbsoluteY();
+		Point pPtrRelPrnt = new Point(x, y);
+		Point pCmpRelPrnt = new Point(getX(), getY());
+		if (gw1.getPaused()) {
+			while (vector.hasNext()) {
+				GameObject temp = (GameObject) vector.next();
+				if (temp instanceof ISelectable) {
+					if (temp.contains(pPtrRelPrnt, pCmpRelPrnt)) {
+						temp.setSelected(true);
 
-
+					} else {
+						temp.setSelected(false);
+					}
+				}
+			}
+		}
+		repaint();
 	}
 }

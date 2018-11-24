@@ -11,13 +11,13 @@ public class SpaceStation extends FixGameObject implements IDrawable{
 	private GameWorldProxy gwp;
 	private int blinkRate;
 	private boolean lightOn;
-	private int sizeB = 200;
+	private int sizeB = 100;
 	private int sizeH = 100;
 	
 	SpaceStation(GameWorldProxy gw){
 		super(gw);
 		gwp = gw;
-		this.blinkRate = new Random().nextInt(4);
+		this.blinkRate = new Random().nextInt(4 - 1) + 1;
 		this.lightOn = true;
 	}
 	
@@ -26,11 +26,17 @@ public class SpaceStation extends FixGameObject implements IDrawable{
 	}
 	
 	public void setLight(boolean x) {
-		this.lightOn = x;
+		this.lightOn = !this.lightOn;
 	}
 
 	public boolean getLight(){
 		return this. lightOn;
+	}
+	
+	public void setBlinking(int i) {
+		if (i%blinkRate == 0) {
+			lightOn = !lightOn;
+		}
 	}
 	
 	public String toString() {
@@ -46,9 +52,11 @@ public class SpaceStation extends FixGameObject implements IDrawable{
 	
 	public void draw(Graphics g, Point p) {
 		g.setColor(ColorUtil.rgb(255, 100, 100));
+		if (this.lightOn) {
 		g.fillRect((int)this.getLocation().getX(), 
 				   (int)this.getLocation().getY(), 
 				   sizeB, sizeH, (byte)100);
+		}
 	}
 	
 	public boolean collideWith(ICollider gameObject) {

@@ -31,21 +31,6 @@ public class Triangle{
 	public void draw (Graphics g, Point pCmpRelPrnt) {
 	g.setColor(color);
 	
-//	g.drawLine( (pCmpRelPrnt.getX()+ top.getX()), 
-//	(pCmpRelPrnt.getY()+top.getY()),
-//	(pCmpRelPrnt.getX()+bottomLeft.getX()),
-//	(pCmpRelPrnt.getY()+bottomLeft.getY()));
-//	
-//	g.drawLine((pCmpRelPrnt.getX()+bottomLeft.getX()),
-//	(pCmpRelPrnt.getY()+bottomLeft.getY()),
-//	(pCmpRelPrnt.getX()+bottomRight.getX()),
-//	(pCmpRelPrnt.getY()+bottomRight.getY()));
-//	
-//	g.drawLine((pCmpRelPrnt.getX()+bottomRight.getX()),
-//	(pCmpRelPrnt.getY()+bottomRight.getY()),
-//	(pCmpRelPrnt.getX()+top.getX()),
-//	(pCmpRelPrnt.getY()+top.getY()));
-	
 	g.fillTriangle((pCmpRelPrnt.getX()+ top.getX()), (pCmpRelPrnt.getY()+top.getY()),
 				   (pCmpRelPrnt.getX()+bottomLeft.getX()), (pCmpRelPrnt.getY()+bottomLeft.getY()),
 				   (pCmpRelPrnt.getX()+bottomRight.getX()), (pCmpRelPrnt.getY()+bottomRight.getY()));

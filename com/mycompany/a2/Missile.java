@@ -19,7 +19,8 @@ public class Missile extends MoveableGameObject implements ISelectable,IDrawable
 		this.gwp = gw;
 		tri = new Triangle(50,50, ColorUtil.rgb(255,0,0));
 		this.FuelLevel = 350;
-		this.setSpeed(10);
+		this.setSpeed(700);
+	
 	}
 	
 	public void move(int tick) {
@@ -47,8 +48,8 @@ public class Missile extends MoveableGameObject implements ISelectable,IDrawable
 		return this.FuelLevel;
 	}
 	
-	public int setFuelLevel() {
-		return this.FuelLevel--;
+	public void setFuelLevel(int x) {
+		this.FuelLevel = x;
 	}
 	
 	public void setShip(String ship){
@@ -68,9 +69,10 @@ public class Missile extends MoveableGameObject implements ISelectable,IDrawable
 		return text;
 	}
 
+	
 	@Override
 	public void setSelected(boolean yesNo) {
-		// TODO Auto-generated method stub
+		selected = yesNo;
 		
 	}
 
@@ -81,21 +83,26 @@ public class Missile extends MoveableGameObject implements ISelectable,IDrawable
 
 	@Override
 	public boolean contains(Point pPtrRelPrnt, Point pCmpRelPrnt) {
+		
 		boolean temp = false;
 		int ptrX = pPtrRelPrnt.getX();
 		int ptrY = pPtrRelPrnt.getY();
-		int locX = ptrX + (int)this.getLocation().getX();
-		int locY = ptrY + (int)this.getLocation().getY();
+		int locX = Math.round((int)super.getLocation().getX()) ;
+		int locY = Math.round((int)super.getLocation().getY()) ;
+		
+		if((ptrX <= (locX) + sizeB) && (ptrX >= locX - sizeB) &&
+				   (ptrY <= (locY + sizeH*2)) && (ptrY >= locY)){
+			temp = true;
+		}
+		
 		return temp;
 	}
 
 	@Override
 	public void draw(Graphics g, Point pCmpRelPrnt) {
 		System.out.println();
-		tri.draw(g, new Point((int) this.getLocation().getX(), 
-	                          (int) this.getLocation().getY()));
 		g.drawRect((int) this.getLocation().getX() - sizeB/2, 
-				   (int) this.getLocation().getY() - sizeH*3 + sizeH/2, 
+				   (int) this.getLocation().getY(), 
 				   sizeB, sizeH*2);
 	}
 	

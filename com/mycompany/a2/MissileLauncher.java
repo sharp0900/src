@@ -1,5 +1,4 @@
 package com.mycompany.a2;
-
 public class MissileLauncher extends MoveableGameObject {
 	
 	public MissileLauncher(GameWorldProxy gw) {
@@ -13,5 +12,7 @@ public class MissileLauncher extends MoveableGameObject {
 		double deltaY = (Math.sin(90 - this.getHeading()) * this.getSpeed() * tick);
 		this.setLocation(oldLocationX + deltaX, oldLocationY + deltaY);
 	}
+	
+
 
 }
