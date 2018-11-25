@@ -16,7 +16,10 @@ public class MapView extends Container implements Observer{
 		
 		Container contain = new Container();
 		contain.setLayout(new BorderLayout());
+		contain.getAllStyles().setBgTransparency(200);
+		contain.getAllStyles().setBgColor(ColorUtil.rgb(204, 255, 229));
 		contain.getAllStyles().setBgColor(ColorUtil.GREEN);
+
 		this.add(contain);
 		gw1 = gw;
 		}

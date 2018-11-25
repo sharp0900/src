@@ -17,7 +17,7 @@ public class Missile extends MoveableGameObject implements ISelectable, IDrawabl
 	Missile(GameWorldProxy gw) {
 		super(gw);
 		this.gwp = gw;
-		this.FuelLevel = 350;
+		this.FuelLevel = 100;
 		this.setSpeed(700);
 		selected = false;
 	}
@@ -86,7 +86,7 @@ public class Missile extends MoveableGameObject implements ISelectable, IDrawabl
 			this.color = ColorUtil.rgb(100, 100, 255);
 			temp = true;
 		} else if (this.ship.equals("Player Ship")) {
-			this.color = (ColorUtil.rgb(100, 255, 100));
+			this.color = (ColorUtil.rgb(178, 102, 255));
 		} else {
 			this.color = (ColorUtil.rgb(255, 100, 100));
 		}
@@ -98,7 +98,7 @@ public class Missile extends MoveableGameObject implements ISelectable, IDrawabl
 	public void draw(Graphics g, Point pCmpRelPrnt) {
 		if (!this.isSelected()) {
 			if (this.ship.equals("Player Ship")) {
-				g.setColor(ColorUtil.rgb(100, 255, 100));
+				g.setColor(ColorUtil.rgb(178, 102, 255));
 			} else {
 				g.setColor(ColorUtil.rgb(255, 100, 100));
 			}

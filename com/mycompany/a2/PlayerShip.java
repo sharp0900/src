@@ -22,7 +22,7 @@ public class PlayerShip extends Ship implements ISteerable, IDrawable, ICollider
 		this.shipLauncher.setSpeed(this.getSpeed());
 		this.shipLauncher.setHeading(this.getHeading());
 		this.shipLauncher.setLocation(gw.getMapX() + gw.getMapWidth() / 2, gw.getMapY() + gw.getMapHeight() / 2);
-		this.tri = new Triangle(sizeB, sizeH, ColorUtil.argb(60, 255, 0, 255));
+		this.tri = new Triangle(sizeB, sizeH, ColorUtil.argb(60, 204, 0, 102));
 	}
 
 	public PlayerMissileLauncher getLauncher() {

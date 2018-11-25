@@ -16,7 +16,7 @@ public class NonPlayerShip extends Ship implements IDrawable,ICollider{
 	NonPlayerShip(GameWorldProxy gw){
 		super(gw);
 		this.gwp = gw;
-		tri = new Triangle(sizeB, sizeH, ColorUtil.rgb(0,0,0));
+		tri = new Triangle(sizeB, sizeH, ColorUtil.rgb(51,153,255));
 		npLauncher = new MissileLauncher(gw);
 		npLauncher.setHeading(this.getHeading());
 		npLauncher.setSpeed(this.getSpeed());

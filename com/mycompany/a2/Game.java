@@ -24,6 +24,7 @@ public class Game extends Form implements Runnable{
 	private Container leftContainer;
 	private UITimer timer;
 	private missleRefillCommand refillMissile;
+	Button reFuel;
 	private int tick;
 	private int min;
 	private int max;
@@ -47,41 +48,50 @@ public class Game extends Form implements Runnable{
 		this.setLayout(new BorderLayout());
 		
 		Toolbar toolBar = new Toolbar();
-		setToolbar(toolBar);
 		toolBar.getAllStyles().setPadding(1, 0, 0, 0);
+		toolBar.getAllStyles().setBgTransparency(200);
+		toolBar.getAllStyles().setBgColor(ColorUtil.rgb(204, 255, 255));
+		setToolbar(toolBar);
 		
-		Label label = new Label("The Best Asteroid Game Ever");
+		Label label = new Label("A  S  T  E  R  O  I  D");
+		
 		toolBar.setTitleComponent(label);
 		
 		//=================================================================================
 		//Command Buttons to be put on left side of GUI
 		Button addSpaceShip = new Button();
-		addSpaceShip.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		addSpaceShip.getAllStyles().setBgTransparency(255);
+		addSpaceShip.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.rgb(255, 204, 229)));
+		addSpaceShip.getAllStyles().setBgTransparency(250);
+		addSpaceShip.getAllStyles().setBgColor(ColorUtil.rgb(204, 255, 255));
 		
 		Button addAsteroidButton = new Button();
-		addAsteroidButton.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		addAsteroidButton.getAllStyles().setBgTransparency(255);
+		addAsteroidButton.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.rgb(255, 204, 229)));
+		addAsteroidButton.getAllStyles().setBgTransparency(200);
+		addAsteroidButton.getAllStyles().setBgColor(ColorUtil.rgb(204, 255, 255));
 		
 		Button addNonPlayerShip = new Button();
-		addNonPlayerShip.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		addNonPlayerShip.getAllStyles().setBgTransparency(255);
+		addNonPlayerShip.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.rgb(255, 204, 229)));
+		addNonPlayerShip.getAllStyles().setBgTransparency(200);
+		addNonPlayerShip.getAllStyles().setBgColor(ColorUtil.rgb(204, 255, 255));
 			
 		Button firePSMissile = new Button();
-		firePSMissile.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
+		firePSMissile.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.rgb(255, 204, 229)));
 		firePSMissile.getAllStyles().setBgTransparency(255);
 		
 		Button jump = new Button();
-		jump.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		jump.getAllStyles().setBgTransparency(255);
+		jump.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.rgb(255, 204, 229)));
+		jump.getAllStyles().setBgTransparency(200);
+		jump.getAllStyles().setBgColor(ColorUtil.rgb(204, 255, 255));
 		
 		Button refill = new Button();
-		refill.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		refill.getAllStyles().setBgTransparency(255);
+		refill.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.rgb(255, 204, 229)));
+		refill.getAllStyles().setBgTransparency(200);
+		refill.getAllStyles().setBgColor(ColorUtil.rgb(204, 255, 255));
 		
-		Button reFuel = new Button();
-		reFuel.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		reFuel.getAllStyles().setBgTransparency(255);
+		reFuel = new Button();
+		reFuel.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.rgb(255, 204, 229)));
+		reFuel.getAllStyles().setBgTransparency(200);
+		reFuel.getAllStyles().setBgColor(ColorUtil.rgb(204, 255, 255));
 		
 		Button moveLauncherLeft = new Button();
 		moveLauncherLeft.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
@@ -92,24 +102,28 @@ public class Game extends Form implements Runnable{
 		moveLauncherRight.getAllStyles().setBgTransparency(255);
 		
 		Button station = new Button();
-		station.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		station.getAllStyles().setBgTransparency(255);
+		station.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.rgb(255, 204, 229)));
+		station.getAllStyles().setBgTransparency(200);
+		station.getAllStyles().setBgColor(ColorUtil.rgb(204, 255, 255));
 		
 		Button play = new Button();
-		play.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		play.getAllStyles().setBgTransparency(255);
+		play.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.rgb(255, 204, 229)));
+		play.getAllStyles().setBgTransparency(200);
+		play.getAllStyles().setBgColor(ColorUtil.rgb(204, 255, 255));
 		
 		Button pause = new Button();
-		pause.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		pause.getAllStyles().setBgTransparency(255);
+		pause.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.rgb(255, 204, 229)));
+		pause.getAllStyles().setBgTransparency(200);
+		pause.getAllStyles().setBgColor(ColorUtil.rgb(204, 255, 255));
 		
 		Button tick = new Button();
-		tick.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
+		tick.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.rgb(255, 204, 229)));
 		tick.getAllStyles().setBgTransparency(255);
 		
 		Button exit = new Button();
-		exit.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.BLUE));
-		exit.getAllStyles().setBgTransparency(255);
+		exit.getAllStyles().setBorder(Border.createLineBorder(4,ColorUtil.rgb(255, 204, 229)));
+		exit.getAllStyles().setBgTransparency(200);
+		exit.getAllStyles().setBgColor(ColorUtil.rgb(204, 255, 255));
 		
 		
 		//================================================================================
@@ -210,16 +224,25 @@ public class Game extends Form implements Runnable{
 		//Containers, in other words, the GUI
 	
 		//Points View
+		pv.getAllStyles().setBgTransparency(50);
+		pv.getAllStyles().setBgColor(ColorUtil.rgb(255, 51, 255));
 		add(BorderLayout.NORTH, pv);
 		
 		//Map View
+		mv.getAllStyles().setBgTransparency(100);
+		mv.getAllStyles().setBgColor(ColorUtil.rgb(51, 128, 255));
 	    add(BorderLayout.CENTER, mv);
+	    
 		
 		//Command Buttons Container
 		leftContainer = new Container(new GridLayout(14,1));
 		leftContainer.getAllStyles().setPadding(Component.LEFT, 10);
 		leftContainer.getAllStyles().setPadding(Component.RIGHT, 10);
-		leftContainer.getAllStyles().setBorder(Border.createLineBorder(4, ColorUtil.BLACK));
+		leftContainer.getAllStyles().setPadding(Component.TOP, 10);
+		//leftContainer.getAllStyles().setBorder(Border.createLineBorder(4, ColorUtil.rgb(255, 51, 255)));
+		leftContainer.getAllStyles().setBgTransparency(50);
+		leftContainer.getAllStyles().setBgColor(ColorUtil.rgb(255, 51, 255));
+		//leftContainer.getAllStyles().setBgColor(ColorUtil.rgb(255, 153, 255));
 		leftContainer.add(addSpaceShip);
 		leftContainer.add(addAsteroidButton);
 		leftContainer.add(addNonPlayerShip);
@@ -253,25 +276,26 @@ public class Game extends Form implements Runnable{
 	
 	public void pause() {
 		timer.cancel();
-		disableButtons();
+		enableButtons();
 		gw.pause();
 	}
 	
 	public void play() {
 		timer.schedule(tick, true, this);
-		enableButtons();
+		disableButtons();
 		gw.play();
 	}
 	
 	private void disableButtons() {
-		refillMissile.setEnabled(false);
-		
-		this.getDisabledStyle().setBgColor(ColorUtil.BLACK);
+		reFuel.setEnabled(false);
+		reFuel.getAllStyles().setBgTransparency(200);
+		reFuel.getAllStyles().setBgColor(ColorUtil.rgb(51, 0, 25));
 	}
 	
 	private void enableButtons() {
-		refillMissile.setEnabled(true);
-		this.getDisabledStyle().setBgColor(ColorUtil.WHITE);
+		reFuel.setEnabled(true);
+		reFuel.getAllStyles().setBgTransparency(200);
+		reFuel.getAllStyles().setBgColor(ColorUtil.rgb(204, 255, 255));
 	}
 	
 	private static int genRandInt(int min, int max) {

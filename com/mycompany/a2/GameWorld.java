@@ -264,7 +264,7 @@ public class GameWorld extends Observable implements IGameWorld {
 			GameObject temp = coll.next();
 			if (temp instanceof ISelectable && temp instanceof Missile) {
 				if (((ISelectable) temp).isSelected()) {
-					((Missile) temp).setFuelLevel(350);
+					((Missile) temp).setFuelLevel(100);
 				}
 			}
 		}
