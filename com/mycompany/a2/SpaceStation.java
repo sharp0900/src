@@ -6,7 +6,7 @@ import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
 
-public class SpaceStation extends FixGameObject implements IDrawable{
+public class SpaceStation extends FixGameObject implements IDrawable,ICollider{
 
 	private GameWorldProxy gwp;
 	private int blinkRate;

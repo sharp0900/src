@@ -4,7 +4,7 @@ import com.codename1.charts.util.ColorUtil;
 import com.codename1.ui.Graphics;
 import com.codename1.ui.geom.Point;
 
-public class NonPlayerShip extends Ship implements IDrawable{
+public class NonPlayerShip extends Ship implements IDrawable,ICollider{
 
 	private GameWorldProxy gwp;
 	private MissileLauncher npLauncher;

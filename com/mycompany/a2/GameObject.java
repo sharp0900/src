@@ -5,7 +5,7 @@ import com.codename1.ui.geom.Point2D;
 import java.util.Random;
 import com.codename1.charts.util.ColorUtil;
 
-public class GameObject extends GameCollection implements ICollider{
+public class GameObject extends GameCollection{
 
 	private Point2D locate = new Point2D(0,0);
 	private int color = ColorUtil.rgb(255,255,255);

@@ -241,9 +241,13 @@ public class Game extends Form implements Runnable{
 	public void run() {
 		disableButtons();
 		int roll = Game.genRandInt(min, max);
-		if(roll >= 89 && roll<= 90 ) {
+		if(roll >= 88 && roll<= 90 ) {
 			gw.addNPShip();
-		}
+			if(roll >= 90 && roll<= 90 ) {
+				gw.launch();
+			}
+
+		}		
 		gw.tickTock(tick);
 	}
 	

@@ -7,6 +7,7 @@ public interface ISelectable {
 	 public void setSelected(boolean yesNo);
 
 	 public boolean isSelected();
+	 
 
 	 public boolean contains(Point pPtrRelPrnt, Point pCmpRelPrnt);
 
