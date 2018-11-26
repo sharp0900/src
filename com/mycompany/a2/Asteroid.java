@@ -88,7 +88,7 @@ public class Asteroid extends MoveableGameObject implements ISelectable, IDrawab
 		} else {
 			g.setColor(ColorUtil.argb(100, 200, 50, 100));
 		}
-		g.fillRoundRect((int) this.getLocation().getX(), (int) this.getLocation().getY(), this.size, this.size, 360,
+		g.fillRoundRect((int) this.getLocation().getX(), (int) this.getLocation().getY(), this.size, this.size, 100,
 				360);
 
 	}

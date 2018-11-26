@@ -185,7 +185,9 @@ public class GameWorld extends Observable implements IGameWorld {
 			missile.setLocation(nonShipPlayer().getLocation().getX() + 10, nonShipPlayer().getLocation().getY() + 10);
 			collection.add(missile);
 			soundMissile = new SoundMissile("soundMissile.wav");
-			soundMissile.play();
+			if (soundOn) {
+				soundMissile.play();
+			}
 			notifyObv();
 		} else {
 			System.out.println("No Non-Player Ship exists to shoot Missile.");
@@ -282,8 +284,10 @@ public class GameWorld extends Observable implements IGameWorld {
 			missile.setSpeed(shipPlayer().getSpeed() + 4);
 			shipPlayer().ShootMissile();
 			collection.add(missile);
-			soundMissile = new SoundMissile("soundMissile.wav");
-			soundMissile.play();
+			if (soundOn) {
+				soundMissile = new SoundMissile("soundMissile.wav");
+				soundMissile.play();
+			}
 			notifyObv();
 		} else {
 			System.out.println("Player Ship does not exist.");
@@ -337,6 +341,9 @@ public class GameWorld extends Observable implements IGameWorld {
 		}
 		notifyObv();
 
+		//==========================================================================
+		// This will check to see if anything has collided after moving
+		
 		coll = collection.getIterator();
 		while (coll.hasNext()) {
 			temp = coll.next();
@@ -347,15 +354,35 @@ public class GameWorld extends Observable implements IGameWorld {
 					ICollider otherObj = (ICollider) temp2;
 					if (otherObj != temp) {
 						if (temp.collideWith(otherObj)) {
-							temp.handleCollision(otherObj);
-							coll = collection.getIterator();
-							coll2 = collection.getIterator();
+							if (!(isShipAndShipMissile(temp, temp2))) {
+								temp.handleCollision(otherObj);
+								coll = collection.getIterator();
+								coll2 = collection.getIterator();
+							}
 						}
 					}
 				}
 			}
 		}
 		notifyObv();
+	}
+
+	private boolean isShipAndShipMissile(GameObject objOne, GameObject objTwo){
+		boolean result = false;
+		if (objOne instanceof Missile) {
+			if(objTwo instanceof PlayerShip) {
+				if(((Missile)objOne).getShip().equals("Player Ship")) {
+					result = true;
+				}
+			}
+		} else if (objOne instanceof PlayerShip){
+			if(objTwo instanceof Missile){
+				if(((Missile)objTwo).getShip().equals("Player Ship")) {
+					result = true;
+				}
+			}
+		}
+		return result;
 	}
 
 	public void pause() {
@@ -497,6 +524,7 @@ public class GameWorld extends Observable implements IGameWorld {
 				this.setIsDead(collideObj);
 			} else if (collideObj instanceof Missile) {
 				this.missileHit(collideObj);
+				collection.remove(collideObj);
 			} else {
 				collection.remove(collideObj);
 				notifyObv();
@@ -508,14 +536,18 @@ public class GameWorld extends Observable implements IGameWorld {
 				this.setIsDead(currObj);
 			} else if (currObj instanceof Missile) {
 				this.missileHit(currObj);
+				collection.remove(currObj);
 			} else {
 				collection.remove(currObj);
 				notifyObv();
 			}
 		}
 
-		soundHit = new soundHit("soundHit.wav");
-		soundHit.play();
+		if(soundOn) {
+			soundHit = new soundHit("soundHit.wav");
+			soundHit.play();
+		}
+
 	}
 
 }
